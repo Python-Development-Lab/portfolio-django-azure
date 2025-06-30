@@ -500,6 +500,19 @@ EOF
 log "📄 Конфігурація збережена у файл: infrastructure-summary.txt"
 
 ```
-
-
 ---------------------------------------------------------------------------------------------------------------
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-06-30 14:42:17] Початок створення інфраструктури для Django додатку...
+[2025-06-30 14:42:17] Проект: django-app
+[2025-06-30 14:42:17] Середовище: production
+[2025-06-30 14:42:17] Регіон: West Europe
+[2025-06-30 14:42:17] Перевірка залежностей...
+[2025-06-30 14:42:18] ✅ Всі залежності встановлені
+[2025-06-30 14:42:18] Створення Resource Group: django-app-production-rg
+(AuthorizationFailed) The client 'vitalii_shevchuk3@epam.com' with object id '3c895225-e112-4a44-a6e4-0334207f6879' does not have authorization to perform action 'Microsoft.Resources/subscriptions/resourcegroups/write' over scope '/subscriptions/15c098cd-29f0-4f7e-8b7e-ea2ee94bb956/resourcegroups/django-app-production-rg' or the scope is invalid. If access was recently granted, please refresh your credentials.
+Code: AuthorizationFailed
+Message: The client 'vitalii_shevchuk3@epam.com' with object id '3c895225-e112-4a44-a6e4-0334207f6879' does not have authorization to perform action 'Microsoft.Resources/subscriptions/resourcegroups/write' over scope '/subscriptions/15c098cd-29f0-4f7e-8b7e-ea2ee94bb956/resourcegroups/django-app-production-rg' or the scope is invalid. If access was recently granted, please refresh your credentials.
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
