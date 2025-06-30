@@ -1,7 +1,7 @@
 
 
 
-## 📋 ** GitHub Secrets**
+## 📋 **GitHub Secrets**
 
 ### **Базові secrets:**
 ```
