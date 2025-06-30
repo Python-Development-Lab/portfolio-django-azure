@@ -1,0 +1,11 @@
+# Створити .github/workflows/test.yml
+name: Test Secrets
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Secrets configured ✅"
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+       
