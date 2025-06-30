@@ -1,4 +1,4 @@
-# GitHub Codespaces ♥️ Django
+# Portfolio ♥️ Django
 
 
 ## installing dependancies
