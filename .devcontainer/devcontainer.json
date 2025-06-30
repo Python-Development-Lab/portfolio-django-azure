@@ -9,10 +9,13 @@
       "version": "latest"
     }
   },
-  
+    
   "hostRequirements": {
-    "cpus": 4
+    "cpus": 4,
+    "memory": "4gb",
+    "storage": "64gb"
   },
+  
   "waitFor": "onCreateCommand",
   "updateContentCommand": "pip install -r requirements.txt && python manage.py migrate",
   "postCreateCommand": "cp .env.example .env",
