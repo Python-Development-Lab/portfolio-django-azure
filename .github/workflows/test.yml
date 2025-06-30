@@ -1,5 +1,5 @@
 # Створити .github/workflows/test.yml
-name: Test Secrets
+name: Test Secrets 1
 on: workflow_dispatch
 jobs:
   test:
