@@ -22,8 +22,29 @@ print(f"Generated SECRET_KEY: {secret_key}")
 ```bash
 # Виконати скрипт
 python generate_secret_key.py
+```
 
 
+## 🛠️ **Додавання Secrets в GitHub**
+
+### **Крок 1: Перейти в GitHub Repository**
+1. Відкрити ваш репозиторій на GitHub
+2. Перейти в **Settings** (вкладка вгорі)
+3. В лівому меню обрати **Secrets and variables** → **Actions**
+
+### **Крок 2: Додати кожен secret**
+
+#### **AZURE_WEBAPP_PUBLISH_PROFILE:**
+```
+Name: AZURE_WEBAPP_PUBLISH_PROFILE
+Value: [Вставити весь XML з publish profile файлу]
+```
+
+#### **SECRET_KEY:**
+```
+Name: SECRET_KEY
+Value: django-insecure-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz5
+```
 
 
 --------------------------------------------
