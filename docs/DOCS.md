@@ -1,5 +1,669 @@
 
 
+# 🚀 Рекомендації для Azure Deployment
+## Portfolio Django Azure Project
+
+Базуючись на аналізі репозиторію `https://github.com/Python-Development-Lab/portfolio-django-azure`, ось детальні рекомендації для успішного розгортання в Azure.
+
+---
+
+## 📋 **Поточний стан проекту**
+
+### **✅ Що вже є:**
+- Базова Django структура
+- Requirements.txt
+- Основні HTML шаблони
+- GitHub репозиторій
+
+### **❌ Що відсутнє для Azure:**
+- Azure-специфічні налаштування
+- Terraform конфігурація
+- CI/CD pipeline
+- Production-ready settings
+- Containerization
+
+---
+
+## 🛠️ **Обов'язкові зміни для Azure deployment**
+
+### **1. Оновлення Django Settings**
+
+#### **Створити `settings/` структуру:**
+```python
+# settings/__init__.py
+from .base import *
+
+# settings/base.py
+import os
+from pathlib import Path
+from decouple import config
+import dj_database_url
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# SECURITY
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+
+# APPS
+DJANGO_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+
+LOCAL_APPS = [
+    'portfolio',
+]
+
+THIRD_PARTY_APPS = [
+    'storages',  # For Azure Storage
+]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+
+# MIDDLEWARE
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# DATABASE
+DATABASES = {
+    'default': dj_database_url.parse(
+        config('DATABASE_URL', default='sqlite:///db.sqlite3')
+    )
+}
+
+# STATIC & MEDIA
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Azure Storage
+if config('AZURE_STORAGE_ACCOUNT_NAME', default=''):
+    DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+    AZURE_ACCOUNT_NAME = config('AZURE_STORAGE_ACCOUNT_NAME')
+    AZURE_ACCOUNT_KEY = config('AZURE_STORAGE_ACCOUNT_KEY')
+    AZURE_CONTAINER = 'media'
+
+# Application Insights
+if config('APPLICATIONINSIGHTS_CONNECTION_STRING', default=''):
+    INSTALLED_APPS.append('applicationinsights.django')
+    MIDDLEWARE.insert(0, 'applicationinsights.django.ApplicationInsightsMiddleware')
+    APPLICATION_INSIGHTS = {
+        'ikey': config('APPLICATIONINSIGHTS_CONNECTION_STRING'),
+    }
+
+# settings/production.py
+from .base import *
+
+DEBUG = False
+
+# Security Settings
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+# settings/development.py
+from .base import *
+
+DEBUG = True
+ALLOWED_HOSTS = ['*']
+```
+
+### **2. Оновлення requirements.txt**
+```txt
+# Core Django
+Django==4.2.7
+django-storages==1.14.2
+whitenoise==6.5.0
+gunicorn==21.2.0
+
+# Database
+psycopg2-binary==2.9.7
+dj-database-url==2.1.0
+
+# Environment
+python-decouple==3.8
+
+# Azure Integration
+azure-identity==1.15.0
+azure-keyvault-secrets==4.7.0
+azure-storage-blob==12.19.0
+
+# Monitoring
+applicationinsights==0.11.10
+opencensus-ext-azure==1.1.13
+
+# Image handling
+Pillow==10.0.1
+```
+
+### **3. Створити .env.example**
+```bash
+# Django Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+DJANGO_SETTINGS_MODULE=portfolio_project.settings.development
+ALLOWED_HOSTS=localhost,127.0.0.1,*.azurewebsites.net
+
+# Database
+DATABASE_URL=sqlite:///db.sqlite3
+
+# Azure Configuration (Production)
+AZURE_STORAGE_ACCOUNT_NAME=
+AZURE_STORAGE_ACCOUNT_KEY=
+AZURE_CONTAINER_NAME=media
+
+# Application Insights
+APPLICATIONINSIGHTS_CONNECTION_STRING=
+
+# Azure Key Vault
+AZURE_KEY_VAULT_URL=
+```
+
+### **4. Створити startup.sh для Azure**
+```bash
+#!/bin/bash
+
+echo "Starting Django deployment on Azure..."
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Collect static files
+python manage.py collectstatic --noinput
+
+# Run migrations
+python manage.py migrate --noinput
+
+# Create superuser if needed
+python manage.py shell << EOF
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@example.com', 'SecurePassword123!')
+    print('Superuser created')
+EOF
+
+# Start Gunicorn
+exec gunicorn --bind=0.0.0.0:8000 --workers=3 portfolio_project.wsgi:application
+```
+
+---
+
+## 🏗️ **Terraform Infrastructure**
+
+### **Створити terraform/ директорію:**
+
+#### **terraform/main.tf**
+```hcl
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.80"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.4"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+# Variables
+variable "project_name" {
+  description = "Project name"
+  type        = string
+  default     = "portfolio-django"
+}
+
+variable "environment" {
+  description = "Environment"
+  type        = string
+  default     = "dev"
+}
+
+variable "location" {
+  description = "Azure region"
+  type        = string
+  default     = "East US"
+}
+
+# Resource Group
+resource "azurerm_resource_group" "main" {
+  name     = "${var.project_name}-${var.environment}-rg"
+  location = var.location
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project_name
+    Purpose     = "EPAM SECLAB UA Capstone"
+  }
+}
+
+# App Service Plan
+resource "azurerm_service_plan" "main" {
+  name                = "${var.project_name}-${var.environment}-asp"
+  resource_group_name = azurerm_resource_group.main.name
+  location           = azurerm_resource_group.main.location
+  os_type            = "Linux"
+  sku_name           = "B1"
+}
+
+# App Service
+resource "azurerm_linux_web_app" "main" {
+  name                = "${var.project_name}-${var.environment}-app"
+  resource_group_name = azurerm_resource_group.main.name
+  location           = azurerm_service_plan.main.location
+  service_plan_id    = azurerm_service_plan.main.id
+
+  site_config {
+    always_on = false
+    application_stack {
+      python_version = "3.11"
+    }
+    app_command_line = "startup.sh"
+  }
+
+  app_settings = {
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
+    "DJANGO_SETTINGS_MODULE"         = "portfolio_project.settings.production"
+    "SECRET_KEY"                     = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.django_secret.id})"
+    "DATABASE_URL"                   = "postgresql://${azurerm_postgresql_flexible_server.main.administrator_login}:${azurerm_postgresql_flexible_server.main.administrator_password}@${azurerm_postgresql_flexible_server.main.fqdn}:5432/${azurerm_postgresql_flexible_server_database.main.name}"
+    "AZURE_STORAGE_ACCOUNT_NAME"     = azurerm_storage_account.main.name
+    "AZURE_STORAGE_ACCOUNT_KEY"      = azurerm_storage_account.main.primary_access_key
+    "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.main.connection_string
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+}
+
+# PostgreSQL
+resource "azurerm_postgresql_flexible_server" "main" {
+  name                   = "${var.project_name}-${var.environment}-postgres"
+  resource_group_name    = azurerm_resource_group.main.name
+  location              = azurerm_resource_group.main.location
+  version               = "15"
+  administrator_login    = "portfolioadmin"
+  administrator_password = "SecurePassword123!"
+  sku_name              = "B_Standard_B1ms"
+  storage_mb            = 32768
+}
+
+resource "azurerm_postgresql_flexible_server_database" "main" {
+  name      = "portfolio"
+  server_id = azurerm_postgresql_flexible_server.main.id
+  collation = "en_US.utf8"
+  charset   = "utf8"
+}
+
+# Storage Account
+resource "azurerm_storage_account" "main" {
+  name                     = "${replace(var.project_name, "-", "")}${var.environment}storage"
+  resource_group_name      = azurerm_resource_group.main.name
+  location                = azurerm_resource_group.main.location
+  account_tier            = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "media" {
+  name                  = "media"
+  storage_account_name  = azurerm_storage_account.main.name
+  container_access_type = "blob"
+}
+
+# Key Vault
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault" "main" {
+  name                = "${var.project_name}-${var.environment}-kv"
+  location           = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  tenant_id          = data.azurerm_client_config.current.tenant_id
+  sku_name           = "standard"
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = azurerm_linux_web_app.main.identity[0].principal_id
+
+    secret_permissions = [
+      "Get", "List"
+    ]
+  }
+}
+
+resource "azurerm_key_vault_secret" "django_secret" {
+  name         = "django-secret-key"
+  value        = "your-production-secret-key-here"
+  key_vault_id = azurerm_key_vault.main.id
+}
+
+# Application Insights
+resource "azurerm_application_insights" "main" {
+  name                = "${var.project_name}-${var.environment}-ai"
+  location           = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  application_type   = "web"
+}
+
+# Outputs
+output "web_app_url" {
+  value = "https://${azurerm_linux_web_app.main.default_hostname}"
+}
+
+output "resource_group_name" {
+  value = azurerm_resource_group.main.name
+}
+```
+
+---
+
+## 🔄 **GitHub Actions CI/CD**
+
+### **Створити .github/workflows/azure-deploy.yml:**
+```yaml
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AZURE_WEBAPP_NAME: portfolio-django-dev-app
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-django
+    
+    - name: Create test environment
+      run: |
+        echo "SECRET_KEY=test-key" > .env
+        echo "DEBUG=True" >> .env
+        echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test_db" >> .env
+        echo "DJANGO_SETTINGS_MODULE=portfolio_project.settings.development" >> .env
+    
+    - name: Run migrations
+      run: python manage.py migrate
+    
+    - name: Run tests
+      run: python manage.py test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Collect static files
+      run: |
+        python manage.py collectstatic --noinput
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DJANGO_SETTINGS_MODULE: portfolio_project.settings.production
+    
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+```
+
+---
+
+## 🐳 **Containerization (Опціонально)**
+
+### **Dockerfile:**
+```dockerfile
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project
+COPY . .
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "portfolio_project.wsgi:application"]
+```
+
+---
+
+## 📝 **Оновлення файлів проекту**
+
+### **1. Оновити manage.py:**
+```python
+#!/usr/bin/env python
+import os
+import sys
+
+if __name__ == '__main__':
+    # Set default settings module
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_project.settings.development')
+    
+    # Azure detection
+    if 'WEBSITE_HOSTNAME' in os.environ:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_project.settings.production')
+    
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+```
+
+### **2. Створити wsgi.py для production:**
+```python
+import os
+from django.core.wsgi import get_wsgi_application
+
+# Azure detection
+if 'WEBSITE_HOSTNAME' in os.environ:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_project.settings.production')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_project.settings.development')
+
+application = get_wsgi_application()
+```
+
+---
+
+## 🔐 **GitHub Secrets Configuration**
+
+Налаштуйте наступні secrets в GitHub:
+
+```
+AZURE_WEBAPP_PUBLISH_PROFILE  # Отримати з Azure Portal
+SECRET_KEY                   # Django secret key для production
+AZURE_CREDENTIALS           # Service Principal для Terraform
+```
+
+---
+
+## 📋 **Покроковий план deployment:**
+
+### **Крок 1: Підготовка коду**
+```bash
+# 1. Додати всі нові файли до проекту
+# 2. Оновити існуючі файли згідно рекомендацій
+# 3. Commit та push змін
+git add .
+git commit -m "Add Azure deployment configuration"
+git push origin main
+```
+
+### **Крок 2: Azure Infrastructure**
+```bash
+# 1. Встановити Azure CLI та Terraform
+# 2. Логін до Azure
+az login
+
+# 3. Розгорнути інфраструктуру
+cd terraform
+terraform init
+terraform plan
+terraform apply
+```
+
+### **Крок 3: GitHub Actions**
+```bash
+# 1. Налаштувати GitHub Secrets
+# 2. Отримати publish profile з Azure
+# 3. Trigger deployment через push
+```
+
+### **Крок 4: Верифікація**
+```bash
+# 1. Перевірити URL додатку
+# 2. Протестувати функціональність
+# 3. Перевірити Application Insights
+# 4. Налаштувати моніторинг
+```
+
+---
+
+## 🎯 **Очікувані результати**
+
+Після впровадження цих змін, ваш проект матиме:
+
+✅ **Production-ready Django додаток**  
+✅ **Azure App Service deployment**  
+✅ **PostgreSQL база даних**  
+✅ **Azure Storage для медіа файлів**  
+✅ **Application Insights моніторинг**  
+✅ **CI/CD через GitHub Actions**  
+✅ **Infrastructure as Code з Terraform**  
+✅ **Security best practices**
+
+**Результат:** Повнофункціональний portfolio додаток на Azure з enterprise-рівня архітектурою! 🚀
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------
+
 # 🐳 Dev Container Configuration Documentation
 
 ## 📋 Overview
