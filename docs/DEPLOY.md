@@ -1,6 +1,33 @@
 
 
 
+Детальний гайд по налаштуванню GitHub Secrets для Azure deployment:
+
+## 🎯 **Кроки для налаштування GitHub Secrets**
+
+
+## 🔑 **SECRET_KEY**
+
+### **Крок 1: Генерація Django Secret Key**
+
+#### **Метод 1: Python скрипт**
+```python
+# generate_secret_key.py
+from django.core.management.utils import get_random_secret_key
+
+secret_key = get_random_secret_key()
+print(f"Generated SECRET_KEY: {secret_key}")
+```
+
+```bash
+# Виконати скрипт
+python generate_secret_key.py
+
+
+
+
+--------------------------------------------
+
 Створю повний гайд по автоматичному deployment Django через GitHub Actions в Azure:## 🚀 **GitHub Actions Azure Deployment - Покроковий гайд**
 
 ### **📋 Швидкий старт:**
