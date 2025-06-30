@@ -1,6 +1,32 @@
 
 
 
+## 📋 **Додаткові GitHub Secrets**
+
+### **Базові secrets:**
+```
+AZURE_WEBAPP_PUBLISH_PROFILE      # Publish profile з Azure
+SECRET_KEY                        # Django secret key
+AZURE_CREDENTIALS                 # Service Principal JSON
+```
+
+### **Додаткові secrets для повної функціональності:**
+```
+DATABASE_URL                      # PostgreSQL connection string
+AZURE_RESOURCE_GROUP             # Назва resource group
+AZURE_CONTAINER_REGISTRY         # ACR login server
+REGISTRY_USERNAME                # ACR username
+REGISTRY_PASSWORD                # ACR password
+SLACK_WEBHOOK_URL               # Для notifications
+ARM_CLIENT_ID                   # Terraform Service Principal
+ARM_CLIENT_SECRET               # Terraform Service Principal secret
+ARM_SUBSCRIPTION_ID             # Azure subscription
+ARM_TENANT_ID                   # Azure tenant
+```
+
+
+
+
 Детальний гайд по налаштуванню GitHub Secrets для Azure deployment:
 
 ## 🎯 **Кроки для налаштування GitHub Secrets**
