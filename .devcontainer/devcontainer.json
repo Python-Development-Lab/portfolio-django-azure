@@ -1,5 +1,15 @@
 {
   "image": "mcr.microsoft.com/devcontainers/universal:2",
+
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "latest"
+    }
+  },
+  
   "hostRequirements": {
     "cpus": 4
   },
@@ -17,10 +27,15 @@
     },
     "vscode": {
       "extensions": [
-        "ms-python.python"
+        "ms-python.python",
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-azureterraform",
+        "ms-azuretools.vscode-azurecli",
       ]
     }
   },
+  "terraform.languageServer.enable": true,
+  "terraform.validation.enableEnhancedValidation": true,  
   "portsAttributes": {
     "8000": {
       "label": "Application",
