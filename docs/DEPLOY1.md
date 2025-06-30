@@ -604,8 +604,30 @@ echo "Необхідна роль: Contributor або Resource Group Contributor
 Хочете, щоб я допоміг налаштувати скрипт для роботи з існуючою Resource Group?
 
 
-
-
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az group list
+[]
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az account show
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "b41b72d0-4e9f-4c26-8a69-f949f367c91d",
+  "id": "15c098cd-29f0-4f7e-8b7e-ea2ee94bb956",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "EPAM Production",
+  "state": "Enabled",
+  "tenantDefaultDomain": "EPAM.onmicrosoft.com",
+  "tenantDisplayName": "EPAM",
+  "tenantId": "b41b72d0-4e9f-4c26-8a69-f949f367c91d",
+  "user": {
+    "name": "vitalii_shevchuk3@epam.com",
+    "type": "user"
+  }
+}
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az role assignment list --assignee vitalii_shevchuk3@epam.com --all
+[]
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
 
 
 
