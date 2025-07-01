@@ -744,4 +744,99 @@ If you encounter any problem, please open an issue at https://aka.ms/azclibug
 ```
 
 
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-07-01 03:01:30] Початок створення інфраструктури для Django додатку...
+[2025-07-01 03:01:30] Проект: django-app
+[2025-07-01 03:01:30] Середовище: production
+[2025-07-01 03:01:30] Регіон: West Europe
+[2025-07-01 03:01:30] Перевірка залежностей...
+[2025-07-01 03:01:30] ✅ Всі залежності встановлені
+[2025-07-01 03:01:30] Створення Resource Group: django-app-production-rg
+(AuthorizationFailed) The client 'vitalii_shevchuk3@epam.com' with object id '3c895225-e112-4a44-a6e4-0334207f6879' does not have authorization to perform action 'Microsoft.Resources/subscriptions/resourcegroups/write' over scope '/subscriptions/15c098cd-29f0-4f7e-8b7e-ea2ee94bb956/resourcegroups/django-app-production-rg' or the scope is invalid. If access was recently granted, please refresh your credentials.
+Code: AuthorizationFailed
+Message: The client 'vitalii_shevchuk3@epam.com' with object id '3c895225-e112-4a44-a6e4-0334207f6879' does not have authorization to perform action 'Microsoft.Resources/subscriptions/resourcegroups/write' over scope '/subscriptions/15c098cd-29f0-4f7e-8b7e-ea2ee94bb956/resourcegroups/django-app-production-rg' or the scope is invalid. If access was recently granted, please refresh your credentials.
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+
+```
+
+
+## Проблема з правами доступу ❌
+
+Ваш обліковий запис `vitalii_shevchuk3@epam.com` не має достатніх прав для створення Resource Groups у subscription "EPAM Production".
+
+## Діагностика проблеми
+
+**Перевірте ваші поточні права:**
+
+```bash
+# Перевірка поточних ролей
+az role assignment list --assignee vitalii_shevchuk3@epam.com --output table
+
+# Перевірка доступних підписок
+az account list --output table
+
+# Перевірка поточної підписки
+az account show
+```
+
+## Можливі рішення
+
+### 1. Зміна підписки (якщо є доступ до іншої)
+
+```bash
+# Подивіться всі доступні підписки
+az account list --output table
+
+# Перемкніться на іншу підписку (якщо є)
+az account set --subscription "YOUR_SUBSCRIPTION_ID"
+```
+
+### 2. Використання існуючої Resource Group
+
+Модифікуйте скрипт для використання існуючої Resource Group:
+
+```bash
+# Перегляньте існуючі Resource Groups
+az group list --output table
+
+# Знайдіть Resource Group, до якої у вас є доступ
+az group list --query "[?contains(name, 'test') || contains(name, 'dev')]" --output table
+```
+
+### 3. Запит прав у адміністратора
+
+Зверніться до Azure адміністратора EPAM з проханням надати права:
+- **Contributor** або **Owner** роль на subscription
+- Або створити окрему Resource Group з правами Contributor
+
+### 4. Тимчасове рішення - використання dev середовища
+
+Спробуйте змінити параметри скрипту на менш привілейовані:
+
+```bash
+# Відредагуйте скрипт і змініть:
+# ENVIRONMENT="production" на ENVIRONMENT="dev"
+# PROJECT_NAME="django-app" на PROJECT_NAME="test-django"
+```
+
+## Перевірка доступних ресурсів
+
+```bash
+# Перегляд доступних локацій
+az account list-locations --output table
+
+# Перегляд існуючих ресурсів
+az resource list --output table
+```
+
+## Рекомендації
+
+1. **Негайно:** Зверніться до вашого Azure адміністратора або тім-ліда
+2. **Альтернативно:** Використайте особисту Azure підписку для тестування
+3. **Для розробки:** Створіть окремий проект в dev середовищі
+
+
+
+
 
