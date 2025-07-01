@@ -1431,3 +1431,364 @@ echo "=================================="
 
 
 ```
+
+
+
+
+
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ chmod +x script_azure_student.sh
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure_student.sh
+[2025-07-01 05:47:36] Створення інфраструктури для Django (Student Edition)...
+[2025-07-01 05:47:36] Проект: django-portfolio
+[2025-07-01 05:47:36] Середовище: dev
+[2025-07-01 05:47:36] Регіон: westeurope
+[2025-07-01 05:47:36] Перевірка підписки...
+Поточна підписка: Azure для учащихся
+[2025-07-01 05:47:37] Створення Resource Group: django-portfolio-dev-rg
+{
+  "id": "/subscriptions/826d896f-b844-48c3-998e-c8e36c27e681/resourceGroups/django-portfolio-dev-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "django-portfolio-dev-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CreatedBy": "StudentScript",
+    "Environment": "dev",
+    "Project": "django-portfolio"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+[2025-07-01 05:47:38] ✅ Resource Group створено
+[2025-07-01 05:47:38] Створення App Service Plan: django-portfolio-plan
+{
+  "elasticScaleEnabled": false,
+  "extendedLocation": null,
+  "freeOfferExpirationTime": null,
+  "geoRegion": "West Europe",
+  "hostingEnvironmentProfile": null,
+  "hyperV": false,
+  "id": "/subscriptions/826d896f-b844-48c3-998e-c8e36c27e681/resourceGroups/django-portfolio-dev-rg/providers/Microsoft.Web/serverfarms/django-portfolio-plan",
+  "isSpot": false,
+  "isXenon": false,
+  "kind": "linux",
+  "kubeEnvironmentProfile": null,
+  "location": "westeurope",
+  "maximumElasticWorkerCount": 1,
+  "maximumNumberOfWorkers": 0,
+  "name": "django-portfolio-plan",
+  "numberOfSites": 0,
+  "numberOfWorkers": 1,
+  "perSiteScaling": false,
+  "provisioningState": "Succeeded",
+  "reserved": true,
+  "resourceGroup": "django-portfolio-dev-rg",
+  "sku": {
+    "capabilities": null,
+    "capacity": 1,
+    "family": "U",
+    "locations": null,
+    "name": "U13",
+    "size": "U13",
+    "skuCapacity": null,
+    "tier": "LinuxFree"
+  },
+  "spotExpirationTime": null,
+  "status": "Ready",
+  "subscription": "826d896f-b844-48c3-998e-c8e36c27e681",
+  "tags": null,
+  "targetWorkerCount": 0,
+  "targetWorkerSizeId": 0,
+  "type": "Microsoft.Web/serverfarms",
+  "workerTierName": null,
+  "zoneRedundant": false
+}
+[2025-07-01 05:47:45] ✅ App Service Plan створено
+[2025-07-01 05:47:45] Створення Web App: django-portfolio-web-1751348856
+{
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "clientCertMode": "Required",
+  "cloningInfo": null,
+  "containerSize": 0,
+  "customDomainVerificationId": "D0BFF007869BBFD5B439D6620296D94A14B6BC56E8FB873C9AADB357A6CE0D3B",
+  "dailyMemoryTimeQuota": 0,
+  "daprConfig": null,
+  "defaultHostName": "django-portfolio-web-1751348856.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "django-portfolio-web-1751348856.azurewebsites.net",
+    "django-portfolio-web-1751348856.scm.azurewebsites.net"
+  ],
+  "endToEndEncryptionEnabled": false,
+  "extendedLocation": null,
+  "ftpPublishingUrl": "ftps://waws-prod-am2-601.ftp.azurewebsites.windows.net/site/wwwroot",
+  "hostNameSslStates": [
+    {
+      "certificateResourceId": null,
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "django-portfolio-web-1751348856.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    },
+    {
+      "certificateResourceId": null,
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "django-portfolio-web-1751348856.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "django-portfolio-web-1751348856.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/826d896f-b844-48c3-998e-c8e36c27e681/resourceGroups/django-portfolio-dev-rg/providers/Microsoft.Web/sites/django-portfolio-web-1751348856",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "keyVaultReferenceIdentity": "SystemAssigned",
+  "kind": "app,linux",
+  "lastModifiedTimeUtc": "2025-07-01T05:47:49.590000",
+  "location": "West Europe",
+  "managedEnvironmentId": null,
+  "maxNumberOfWorkers": null,
+  "name": "django-portfolio-web-1751348856",
+  "outboundIpAddresses": "51.124.59.99,51.124.59.175,51.124.59.252,51.124.60.129,51.124.60.243,51.124.60.249,20.105.224.17",
+  "possibleOutboundIpAddresses": "51.124.59.99,51.124.59.175,51.124.59.252,51.124.60.129,51.124.60.243,51.124.60.249,51.124.61.31,51.124.61.49,51.124.61.56,51.124.61.142,51.124.61.184,51.124.61.192,51.105.209.160,51.105.210.136,51.105.210.122,51.124.56.53,51.124.61.162,51.105.210.2,51.124.61.169,51.105.209.155,51.124.57.83,51.124.62.101,51.124.57.229,51.124.58.97,20.105.224.17",
+  "publicNetworkAccess": null,
+  "redundancyMode": "None",
+  "repositorySiteName": "django-portfolio-web-1751348856",
+  "reserved": true,
+  "resourceConfig": null,
+  "resourceGroup": "django-portfolio-dev-rg",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/826d896f-b844-48c3-998e-c8e36c27e681/resourceGroups/django-portfolio-dev-rg/providers/Microsoft.Web/serverfarms/django-portfolio-plan",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityId": null,
+    "alwaysOn": false,
+    "antivirusScanEnabled": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "azureStorageAccounts": null,
+    "clusteringEnabled": false,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "elasticWebAppScaleLimit": 0,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionAppScaleLimit": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": false,
+    "http20ProxyFlag": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "ipSecurityRestrictionsDefaultAction": null,
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "keyVaultReferenceIdentity": null,
+    "limits": null,
+    "linuxFxVersion": "",
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsCipherSuite": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": 1,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publicNetworkAccess": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "sandboxType": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsDefaultAction": null,
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmMinTlsCipherSuite": null,
+    "scmMinTlsVersion": null,
+    "scmSupportedTlsCipherSuites": null,
+    "scmType": null,
+    "sitePort": null,
+    "sitePrivateLinkHostEnabled": null,
+    "storageType": null,
+    "supportedTlsCipherSuites": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "vnetPrivatePortsCount": null,
+    "vnetRouteAllEnabled": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsConfiguredStacks": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "storageAccountRequired": false,
+  "suspendedTill": null,
+  "tags": null,
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal",
+  "virtualNetworkSubnetId": null,
+  "vnetContentShareEnabled": false,
+  "vnetImagePullEnabled": false,
+  "vnetRouteAllEnabled": false,
+  "workloadProfileName": null
+}
+[2025-07-01 05:48:10] ✅ Web App створено
+[2025-07-01 05:48:10] Створення Storage Account: djstore1751348856
+(SubscriptionNotFound) Subscription 826d896f-b844-48c3-998e-c8e36c27e681 was not found.
+Code: SubscriptionNotFound
+Message: Subscription 826d896f-b844-48c3-998e-c8e36c27e681 was not found.
+[WARNING] Не вдалося створити Storage Account. Продовжуємо без нього...
+[
+  {
+    "name": "DJANGO_SETTINGS_MODULE",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "PYTHONPATH",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "DEBUG",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "ALLOWED_HOSTS",
+    "slotSetting": false,
+    "value": null
+  }
+]
+
+==================================
+🎓 STUDENT DEPLOYMENT ГОТОВИЙ!
+==================================
+Resource Group: django-portfolio-dev-rg
+App Service Plan: django-portfolio-plan (F1 - Free)
+Web App: django-portfolio-web-1751348856
+Web App URL: https://django-portfolio-web-1751348856.azurewebsites.net
+Storage Account: djstore1751348856
+
+Наступні кроки для деплойменту:
+1. Підключіть GitHub репозиторій:
+   az webapp deployment source config --name django-portfolio-web-1751348856 --resource-group django-portfolio-dev-rg --repo-url https://github.com/YOUR_USERNAME/YOUR_REPO --branch main
+
+2. Або використайте ZIP деплоймент:
+   az webapp deployment source config-zip --src portfolio.zip --name django-portfolio-web-1751348856 --resource-group django-portfolio-dev-rg
+
+3. Перегляньте логи:
+   az webapp log tail --name django-portfolio-web-1751348856 --resource-group django-portfolio-dev-rg
+
+4. Перезапустіть додаток після деплойменту:
+   az webapp restart --name django-portfolio-web-1751348856 --resource-group django-portfolio-dev-rg
+==================================
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
+
+
+
+
+
+
+
+
+
+
