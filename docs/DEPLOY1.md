@@ -2134,3 +2134,161 @@ jobs:
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
 ```
+
+
+
+
+```bash
+VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az webapp log tail \
+>     --name django-portfolio-web-1751348856 \
+>     --resource-group django-portfolio-dev-rg
+2025-07-01T07:19:11  Welcome, you are now connected to log-streaming service.
+Starting Log Tail -n 10 of existing logs ----
+/home/LogFiles/__lastCheckTime.txt  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/__lastCheckTime.txt)
+07/01/2025 07:18:59
+/home/LogFiles/kudu/trace/b2a312fca316-ad560e22-3984-43bf-950f-2d1f67f22788.txt  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/kudu/trace/b2a312fca316-ad560e22-3984-43bf-950f-2d1f67f22788.txt)
+2025-07-01T07:19:11  Startup Request, url: /logstream, method: GET, type: request, pid: 768,1,5, ScmType: None, SCM_DO_BUILD_DURING_DEPLOYMENT: true
+/home/LogFiles/kudu/trace/django-por-kudu-b26bc8c4-ab4ce692-a19e-4d9f-938b-76c81b0d2161.txt  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/kudu/trace/django-por-kudu-b26bc8c4-ab4ce692-a19e-4d9f-938b-76c81b0d2161.txt)
+2025-07-01T07:02:02  Startup Request, url: /api/settings, method: GET, type: request, pid: 768,1,66, SCM_DO_BUILD_DURING_DEPLOYMENT: true, ScmType: None
+/home/LogFiles/2025_07_01_10-30-0-107_default_docker.log  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/2025_07_01_10-30-0-107_default_docker.log)
+2025-07-01T07:18:50.086454837Z   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+2025-07-01T07:18:50.086460057Z   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+2025-07-01T07:18:50.086465306Z   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+2025-07-01T07:18:50.086470737Z   File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+
+2025-07-01T07:18:50.086476047Z ModuleNotFoundError: No module named 'myproject'
+2025-07-01T07:18:50.086488289Z [2025-07-01 07:18:50 +0000] [1011] [INFO] Worker exiting (pid: 1011)
+2025-07-01T07:18:50.676208460Z [2025-07-01 07:18:50 +0000] [1008] [ERROR] Worker (pid:1011) exited with code 3
+2025-07-01T07:18:50.679610296Z [2025-07-01 07:18:50 +0000] [1008] [ERROR] Shutting down: Master
+2025-07-01T07:18:50.679624924Z [2025-07-01 07:18:50 +0000] [1008] [ERROR] Reason: Worker failed to boot.
+/home/LogFiles/2025_07_01_10-30-0-107_docker.log  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/2025_07_01_10-30-0-107_docker.log)
+2025-07-01T07:18:40.518Z INFO  -  Status: Image is up to date for 10.1.0.5:13209/appsvc/python:3.11_20250506.5.tuxprod
+2025-07-01T07:18:40.538Z INFO  - Pull Image successful, Time taken: 0 Seconds
+2025-07-01T07:18:40.634Z INFO  - Starting container for site
+2025-07-01T07:18:40.635Z INFO  - docker run -d --expose=8000 --name django-portfolio-web-1751348856_0_6c25cfe7 -e WEBSITE_USE_DIAGNOSTIC_SERVER=false -e WEBSITE_SITE_NAME=django-portfolio-web-1751348856 -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=django-portfolio-web-1751348856.azurewebsites.net -e WEBSITE_INSTANCE_ID=b47714df06fcf6a96ddfba3a284a2c5a08964eca8515ab3ca08cef25436c95a0 appsvc/python:3.11_20250506.5.tuxprod 
+2025-07-01T07:18:40.637Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2025-07-01T07:18:42.268Z INFO  - Initiating warmup request to container django-portfolio-web-1751348856_0_6c25cfe7 for site django-portfolio-web-1751348856
+2025-07-01T07:18:51.717Z ERROR - Container django-portfolio-web-1751348856_0_6c25cfe7 for site django-portfolio-web-1751348856 has exited, failing site start
+2025-07-01T07:18:52.261Z ERROR - Container django-portfolio-web-1751348856_0_6c25cfe7 didn't respond to HTTP pings on port: 8000. Failing site start. See container logs for debugging.
+2025-07-01T07:18:52.324Z INFO  - Stopping site django-portfolio-web-1751348856 because it failed during startup.
+/home/LogFiles/AppServiceAppLogs_Feature_Installer/startup_0.log  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/AppServiceAppLogs_Feature_Installer/startup_0.log)
+2025-07-01 07:12:06,874  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+2025-07-01 07:13:08,162  [MainThread] [DEBUG] : Initializating AppServiceAppLogging 
+2025-07-01 07:13:08,164  [Thread-1 (] [DEBUG] : Did not find any previously bound socket
+2025-07-01 07:13:08,165  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+2025-07-01 07:16:29,999  [MainThread] [DEBUG] : Initializating AppServiceAppLogging 
+2025-07-01 07:16:30,001  [Thread-1 (] [DEBUG] : Did not find any previously bound socket
+2025-07-01 07:16:30,002  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+2025-07-01 07:18:48,311  [MainThread] [DEBUG] : Initializating AppServiceAppLogging 
+2025-07-01 07:18:48,313  [Thread-1 (] [DEBUG] : Did not find any previously bound socket
+2025-07-01 07:18:48,314  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+/home/LogFiles/AppServiceAppLogs_Feature_Installer/startup_7.log  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/AppServiceAppLogs_Feature_Installer/startup_7.log)
+2025-07-01 05:49:36,486  [Thread-3 (] [DEBUG] : Waiting for the logs flag to be set
+2025-07-01 07:03:59,021  [MainThread] [DEBUG] : Initializating AppServiceAppLogging 
+2025-07-01 07:03:59,025  [Thread-1 (] [DEBUG] : Did not find any previously bound socket
+2025-07-01 07:03:59,026  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+2025-07-01 07:10:17,176  [MainThread] [DEBUG] : Initializating AppServiceAppLogging 
+2025-07-01 07:10:17,178  [Thread-1 (] [DEBUG] : Did not find any previously bound socket
+2025-07-01 07:10:17,179  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+2025-07-01 07:16:09,801  [MainThread] [DEBUG] : Initializating AppServiceAppLogging 
+2025-07-01 07:16:09,803  [Thread-1 (] [DEBUG] : Did not find any previously bound socket
+2025-07-01 07:16:09,803  [MainThread] [DEBUG] : Initialized AppServiceAppLogging
+/home/LogFiles/CodeProfiler/b47714_debug.log  (https://django-portfolio-web-1751348856.scm.azurewebsites.net/api/vfs/LogFiles/CodeProfiler/b47714_debug.log)
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [INFO] Code Profiler Installer is starting up
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [INFO] Cleaning up any existing status file which indicated signal handlers initialized status
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [DEBUG] APPSETTING_WEBSITE_ENABLE_DEFAULT_CODE_PROFILER : None
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [INFO] Attempting to install the default code profiler.
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [DEBUG] viztracer would save traces to /tmp/b47714_profiler_trace.json
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [INFO] Successfully installed code profiler.
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [INFO] Signal Handlers SIGUSR for needed code-profiler have been initialized for gunicorn process on instance b47714df06fcf6a96ddfba3a284a2c5a08964eca8515ab3ca08cef25436c95a0
+[2025_07_01_05_49_36] [appsvc_profiler.installer] [DEBUG] Code Profiler Installer is exiting as installation is completed
+Ending Log Tail of existing logs ---
+Starting Live Log Stream ---
+2025-07-01T07:20:11  No new trace in the past 1 min(s).
+2025-07-01T07:21:11  No new trace in the past 2 min(s).
+2025-07-01T07:22:11  No new trace in the past 3 min(s).
+2025-07-01T07:23:11  No new trace in the past 4 min(s).
+2025-07-01T07:24:11  No new trace in the past 5 min(s).
+2025-07-01T07:25:11  No new trace in the past 6 min(s).
+```
+
+# Знайшли проблему! 🔍
+
+## Основна помилка:
+```
+ModuleNotFoundError: No module named 'myproject'
+```
+
+Проблема в тому, що Gunicorn намагається знайти модуль `myproject.wsgi`, але ваш Django проект має іншу назву.
+
+## Рішення
+
+### 1. З'ясуємо правильну назву вашого Django проекту:
+
+```bash
+# Подивіться структуру проекту
+ls -la
+
+# Знайдіть файл wsgi.py
+find . -name "wsgi.py" -type f
+
+# Або подивіться manage.py
+cat manage.py | grep DJANGO_SETTINGS_MODULE
+```
+
+### 2. Після того, як знайдете правильну назву, оновіть startup команду:
+
+```bash
+# Замініть 'myproject' на правильну назву вашого проекту
+# Наприклад, якщо ваш проект називається 'portfolio' або 'core':
+
+az webapp config set \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --startup-file "gunicorn --bind=0.0.0.0:8000 --timeout 600 ВАШАНАЗВАПРОЕКТУ.wsgi:application"
+```
+
+### 3. Альтернативно, спробуйте автоматичне виявлення:
+
+```bash
+# Використайте Django's manage.py для автозапуску
+az webapp config set \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --startup-file "python manage.py runserver 0.0.0.0:8000"
+```
+
+### 4. Або створіть startup.sh файл:## Швидке виправлення:
+
+### Спочатку з'ясуйте назву проекту:
+```bash
+ls -la
+find . -name "wsgi.py"
+```
+
+### Потім оновіть конфігурацію з правильною назвою:
+```bash
+# Замініть YOUR_PROJECT_NAME на реальну назву
+az webapp config set \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --startup-file "gunicorn --bind=0.0.0.0:8000 YOUR_PROJECT_NAME.wsgi:application"
+```
+
+### Або використайте Django runserver для швидкого тесту:
+```bash
+az webapp config set \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --startup-file "python manage.py runserver 0.0.0.0:8000"
+```
+
+### Перезапустіть додаток:
+```bash
+az webapp restart \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+```
+
+Покажіть мені вивід команди `ls -la` та `find . -name "wsgi.py"`, щоб я міг точно сказати, яку назву проекту використовувати!
