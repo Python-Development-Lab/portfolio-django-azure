@@ -1782,7 +1782,123 @@ Storage Account: djstore1751348856
 @VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
 ```
 
+# 🎉 Відмінно! Azure інфраструктура створена успішно!
 
+## Статус деплойменту ✅
+
+Ваш Django додаток готовий до розгортання з такими параметрами:
+
+### Створені ресурси:
+- **Resource Group:** `django-portfolio-dev-rg`
+- **App Service Plan:** `django-portfolio-plan` (F1 - Free tier)
+- **Web App:** `django-portfolio-web-1751348856`
+- **URL:** https://django-portfolio-web-1751348856.azurewebsites.net
+
+### Обмеження:
+- Storage Account не створено через обмеження студентської підписки
+- Налаштування середовища застосовані базові
+
+## Наступні кроки для деплойменту
+
+### 1. Підготовка проекту Django
+
+Спочатку переконайтеся, що ваш Django проект готовий:
+
+```bash
+# Створіть requirements.txt якщо його немає
+pip freeze > requirements.txt
+
+# Перевірте структуру проекту
+ls -la
+```
+
+### 2. Варіанти деплойменту
+
+#### Варіант A: GitHub деплоймент (рекомендований)
+
+```bash
+# Підключення GitHub репозиторію
+az webapp deployment source config \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --repo-url https://github.com/VitaliiShevchuk2023/portfolio-django-azure \
+    --branch main \
+    --manual-integration
+```
+
+#### Варіант B: ZIP деплоймент
+
+```bash
+# Створіть ZIP архів проекту
+zip -r portfolio.zip . -x "*.git*" "*__pycache__*" "*.pyc" "venv/*"
+
+# Завантажте проект
+az webapp deployment source config-zip \
+    --src portfolio.zip \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+```
+
+### 3. Налаштування Django для Azure
+
+Створіть файл `startup.sh` у корені проекту:### 4. Оновіть налаштування Django
+
+Додайте до `settings.py`:### 5. Конфігурація веб-аплікації
+
+```bash
+# Налаштування startup команди
+az webapp config set \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --startup-file "startup.sh"
+
+# Встановлення Python runtime
+az webapp config set \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --linux-fx-version "PYTHON|3.11"
+```
+
+### 6. Перевірка та моніторинг
+
+```bash
+# Перегляд логів у реальному часі
+az webapp log tail \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+
+# Перезапуск додатку
+az webapp restart \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+
+# Перегляд статусу
+az webapp show \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --query "state"
+```
+
+## Корисні команди для подальшої роботи
+
+```bash
+# Перегляд всіх ресурсів
+az resource list --resource-group django-portfolio-dev-rg --output table
+
+# Отримання URL додатку
+az webapp show \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --query "defaultHostName" --output tsv
+
+# Налаштування custom domain (за потреби)
+az webapp config hostname add \
+    --webapp-name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --hostname yourdomain.com
+```
+
+Готові розпочати деплоймент? Який варіант (GitHub чи ZIP) вам більше підходить?
 
 
 
