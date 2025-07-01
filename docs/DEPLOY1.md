@@ -630,4 +630,118 @@ echo "Необхідна роль: Contributor або Resource Group Contributor
 ```
 
 
+```bash
+^C@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-07-01 02:45:04] Початок створення інфраструктури для Django додатку...
+[2025-07-01 02:45:04] Проект: django-app
+[2025-07-01 02:45:04] Середовище: production
+[2025-07-01 02:45:04] Регіон: West Europe
+[2025-07-01 02:45:04] Перевірка залежностей...
+[ERROR] Ви не авторизовані в Azure CLI. Виконайте 'az login'
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az login
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code LKG9VV6N3 to authenticate.
+
+Retrieving tenants and subscriptions for the selection...
+Authentication failed against tenant 3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8 'EPAM SECLAB UA': AADSTS50076: Due to a configuration change made by your administrator, or because you moved to a new location, you must use multi-factor authentication to access '797f4846-ba00-4fd7-ba43-dac1f8f63013'. Trace ID: c0af776f-6eba-4e28-b2fb-abf2c7ed8300 Correlation ID: c433b3a1-cbea-4ef6-84e1-83445a811c08 Timestamp: 2025-07-01 02:46:21Z
+The following tenants don't contain accessible subscriptions. Use `az login --allow-no-subscriptions` to have tenant level access.
+0d37204a-f51c-4187-b869-028b3934a0b0 'NEORIS'
+If you need to access subscriptions in the following tenants, please use `az login --tenant TENANT_ID`.
+3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8 'EPAM SECLAB UA'
+
+[Tenant and subscription selection]
+
+No     Subscription name    Subscription ID                       Tenant
+-----  -------------------  ------------------------------------  --------
+[1] *  EPAM Production      15c098cd-29f0-4f7e-8b7e-ea2ee94bb956  EPAM
+
+The default is marked with an *; the default tenant is 'EPAM' and subscription is 'EPAM Production' (15c098cd-29f0-4f7e-8b7e-ea2ee94bb956).
+
+Select a subscription and tenant (Type a number or Enter for no changes): 1
+
+Tenant: EPAM
+Subscription: EPAM Production (15c098cd-29f0-4f7e-8b7e-ea2ee94bb956)
+
+[Announcements]
+With the new Azure CLI login experience, you can select the subscription you want to use more easily. Learn more about it and its configuration at https://go.microsoft.com/fwlink/?linkid=2271236
+
+If you encounter any problem, please open an issue at https://aka.ms/azclibug
+
+[Warning] The login output has been updated. Please be aware that it no longer displays the full list of available subscriptions by default.
+
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
+Ви успішно авторизувалися в Azure CLI і готові продовжити створення інфраструктури для Django додатку. Ось що відбулося:
+
+## Статус авторизації ✅
+
+**Успішно підключено до:**
+- **Tenant:** EPAM
+- **Subscription:** EPAM Production (15c098cd-29f0-4f7e-8b7e-ea2ee94bb956)
+
+## Наступні кроки
+
+Тепер ви можете продовжити виконання скрипту:
+
+```bash
+./script_azure.sh
+```
+
+## Що буде створено
+
+Судячи з початкових логів, скрипт створить інфраструктуру з такими параметрами:
+- **Проект:** django-app
+- **Середовище:** production
+- **Регіон:** West Europe
+
+## Можливі наступні дії
+
+1. **Запустіть скрипт знову:**
+   ```bash
+   ./script_azure.sh
+   ```
+
+2. **Перегляньте доступні ресурси:**
+   ```bash
+   az account show
+   az group list
+   ```
+
+3. **Перевірте права доступу:**
+   ```bash
+   az role assignment list --assignee $(az account show --query user.name -o tsv)
+   ```
+
+## Примітки щодо MFA
+
+Зверніть увагу, що для tenant 'EPAM SECLAB UA' потрібна багатофакторна автентифікація, але ви успішно підключилися до основного EPAM tenant.
+
+```bash
+
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az account show
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "b41b72d0-4e9f-4c26-8a69-f949f367c91d",
+  "id": "15c098cd-29f0-4f7e-8b7e-ea2ee94bb956",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "EPAM Production",
+  "state": "Enabled",
+  "tenantDefaultDomain": "EPAM.onmicrosoft.com",
+  "tenantDisplayName": "EPAM",
+  "tenantId": "b41b72d0-4e9f-4c26-8a69-f949f367c91d",
+  "user": {
+    "name": "vitalii_shevchuk3@epam.com",
+    "type": "user"
+  }
+}
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az group list
+[]
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az role assignment list --assignee $(az account show --query user.name -o tsv)
+[]
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+
+```
+
+
 
