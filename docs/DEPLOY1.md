@@ -2347,3 +2347,598 @@ echo "Storage name: $STORAGE_NAME (length: ${#STORAGE_NAME})"
 Виберіть один з варіантів і запустіть знову. Resource Group вже створена, тому можна просто виправити Storage Account і продовжити!
 
 -------------------------------------------------------------------------------------------------------------------------------
+
+
+
+```bash
+^C@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-07-01 12:47:52] Початок створення інфраструктури для Django додатку...
+[2025-07-01 12:47:52] Проект: django-app
+[2025-07-01 12:47:52] Середовище: production
+[2025-07-01 12:47:52] Регіон: West Europe
+[2025-07-01 12:47:52] Перевірка залежностей...
+[2025-07-01 12:47:53] ✅ Всі залежності встановлені
+[2025-07-01 12:47:53] Створення Resource Group: django-app-production-rg
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "django-app-production-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+[2025-07-01 12:47:56] Створення Storage Account: djapp1374072
+{
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2025-07-01T12:47:59.097030+00:00",
+  "customDomain": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-01T12:47:59.362656+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-01T12:47:59.362656+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Storage/storageAccounts/djapp1374072",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2025-07-01T12:47:59.362656+00:00",
+    "key2": "2025-07-01T12:47:59.362656+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "westeurope",
+  "minimumTlsVersion": "TLS1_0",
+  "name": "djapp1374072",
+  "networkRuleSet": {
+    "bypass": "AzureServices",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "primaryEndpoints": {
+    "blob": "https://djapp1374072.blob.core.windows.net/",
+    "dfs": "https://djapp1374072.dfs.core.windows.net/",
+    "file": "https://djapp1374072.file.core.windows.net/",
+    "internetEndpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://djapp1374072.queue.core.windows.net/",
+    "table": "https://djapp1374072.table.core.windows.net/",
+    "web": "https://djapp1374072.z6.web.core.windows.net/"
+  },
+  "primaryLocation": "westeurope",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "django-app-production-rg",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": null,
+  "secondaryLocation": null,
+  "sku": {
+    "name": "Standard_LRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": null,
+  "storageAccountSkuConversionStatus": null,
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Storage/storageAccounts"
+}
+{
+  "created": false
+}
+{
+  "created": false
+}
+[2025-07-01 12:48:22] Створення PostgreSQL сервера: django-app-production-db-1751374072
+The default value of '--version' will be changed to '17' from '16' in next breaking change release(2.73.0) scheduled for May 2025.
+The default value of '--create-default-database' will be changed to 'Disabled' from 'Enabled' in next breaking change release(2.73.0) scheduled for May 2025.
+Update default value of "--sku-name" in next breaking change release(2.73.0) scheduled for May 2025. The default value will be changed from "Standard_D2s_v3" to a supported sku based on regional capabilities.
+Checking the existence of the resource group 'django-app-production-rg'...
+Resource group 'django-app-production-rg' exists ? : True 
+Incorrect value for --sku-name. The SKU name does not exist in GeneralPurpose tier. When --tier is not specified, it defaults to GeneralPurpose. Provide a valid SKU name for this tier, or specify --tier with the right tier for the SKU name chosen. Allowed values : ['standard_d96ds_v5', 'standard_d64ds_v5', 'standard_d48ds_v5', 'standard_d32ds_v5', 'standard_d16ds_v5', 'standard_d8ds_v5', 'standard_d4ds_v5', 'standard_d2ds_v5', 'standard_d64ds_v4', 'standard_d48ds_v4', 'standard_d32ds_v4', 'standard_d16ds_v4', 'standard_d8ds_v4', 'standard_d4ds_v4', 'standard_d2ds_v4', 'standard_d64s_v3', 'standard_d48s_v3', 'standard_d32s_v3', 'standard_d16s_v3', 'standard_d8s_v3', 'standard_d4s_v3', 'standard_d2s_v3']
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
+
+# Прогрес! Storage Account створено успішно! ✅
+
+## Стан на зараз:
+- ✅ **Resource Group:** `django-app-production-rg` - створено
+- ✅ **Storage Account:** `djapp1374072` - створено успішно
+- ❌ **PostgreSQL:** помилка з SKU
+
+## Проблема з PostgreSQL
+
+Помилка: неправильна назва SKU для PostgreSQL. Скрипт використовує застарілу назву SKU.
+
+### Виправлення в скрипті:## Швидкі способи продовжити:
+
+### 1. Ручне створення PostgreSQL з правильним SKU:
+
+```bash
+# Використайте змінні з вашого скрипту
+DB_SERVER_NAME="django-app-production-db-1751374072"
+DB_ADMIN_USER="djangoadmin"
+DB_ADMIN_PASSWORD="ComplexPass123!"
+RG_NAME="django-app-production-rg"
+LOCATION="westeurope"
+
+# Створіть PostgreSQL з правильним SKU
+az postgres flexible-server create \
+    --name "$DB_SERVER_NAME" \
+    --resource-group "$RG_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_D2ds_v4" \
+    --tier "GeneralPurpose" \
+    --version "16" \
+    --storage-size 32 \
+    --public-network-access Enabled
+```
+
+### 2. Альтернативно - використайте найдешевший SKU:
+
+```bash
+# Для dev/testing - найменший розмір
+az postgres flexible-server create \
+    --name "$DB_SERVER_NAME" \
+    --resource-group "$RG_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_B1ms" \
+    --tier "Burstable" \
+    --version "16" \
+    --storage-size 32
+```
+
+### 3. Виправлення в скрипті:
+
+```bash
+# Відредагуйте script_azure.sh
+nano script_azure.sh
+
+# Знайдіть рядок з --sku-name та замініть на:
+# --sku-name "Standard_D2ds_v4" \
+# --tier "GeneralPurpose" \
+```
+
+### 4. Продовжити з поточного стану:
+
+```bash
+# Оскільки RG і Storage вже створені, можна продовжити з PostgreSQL
+# Додайте змінні та створіть БД:
+
+export DB_SERVER_NAME="django-app-production-db-$(date +%s)"
+export DB_ADMIN_USER="djangoadmin"
+export DB_ADMIN_PASSWORD="ComplexPass123!"
+
+az postgres flexible-server create \
+    --name "$DB_SERVER_NAME" \
+    --resource-group "django-app-production-rg" \
+    --location "westeurope" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_D2ds_v4" \
+    --tier "GeneralPurpose"
+```
+
+## Перевірка доступних SKU:
+
+```bash
+# Подивіться доступні SKU для PostgreSQL
+az postgres flexible-server list-skus --location westeurope --output table
+```
+
+Який варіант виберете? Рекомендую спочатку спробувати ручне створення PostgreSQL з правильним SKU, а потім продовжити зі скриптом!
+
+
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az postgres flexible-server list-skus --location westeurope --output table
+For prices please refer to https://aka.ms/postgres-pricing
+SKU                Tier             VCore    Memory    Max Disk IOPS
+-----------------  ---------------  -------  --------  ---------------
+Standard_B1ms      Burstable        1        2 GiB     640
+Standard_B2s       Burstable        2        4 GiB     1280
+Standard_B2ms      Burstable        2        8 GiB     1920
+Standard_B4ms      Burstable        4        16 GiB    2880
+Standard_B8ms      Burstable        8        32 GiB    4320
+Standard_B12ms     Burstable        12       48 GiB    4320
+Standard_B16ms     Burstable        16       64 GiB    4320
+Standard_B20ms     Burstable        20       80 GiB    4320
+Standard_D2s_v3    GeneralPurpose   2        8 GiB     3200
+Standard_D4s_v3    GeneralPurpose   4        16 GiB    6400
+Standard_D8s_v3    GeneralPurpose   8        32 GiB    12800
+Standard_D16s_v3   GeneralPurpose   16       64 GiB    25600
+Standard_D32s_v3   GeneralPurpose   32       128 GiB   51200
+Standard_D48s_v3   GeneralPurpose   48       192 GiB   76800
+Standard_D64s_v3   GeneralPurpose   64       256 GiB   80000
+Standard_D2ds_v4   GeneralPurpose   2        8 GiB     3200
+Standard_D4ds_v4   GeneralPurpose   4        16 GiB    6400
+Standard_D8ds_v4   GeneralPurpose   8        32 GiB    12800
+Standard_D16ds_v4  GeneralPurpose   16       64 GiB    25600
+Standard_D32ds_v4  GeneralPurpose   32       128 GiB   51200
+Standard_D48ds_v4  GeneralPurpose   48       192 GiB   76800
+Standard_D64ds_v4  GeneralPurpose   64       256 GiB   80000
+Standard_D2ds_v5   GeneralPurpose   2        8 GiB     3750
+Standard_D4ds_v5   GeneralPurpose   4        16 GiB    6400
+Standard_D8ds_v5   GeneralPurpose   8        32 GiB    12800
+Standard_D16ds_v5  GeneralPurpose   16       64 GiB    25600
+Standard_D32ds_v5  GeneralPurpose   32       128 GiB   51200
+Standard_D48ds_v5  GeneralPurpose   48       192 GiB   76800
+Standard_D64ds_v5  GeneralPurpose   64       256 GiB   80000
+Standard_D96ds_v5  GeneralPurpose   96       384 GiB   80000
+Standard_E2s_v3    MemoryOptimized  2        16 GiB    3200
+Standard_E4s_v3    MemoryOptimized  4        32 GiB    6400
+Standard_E8s_v3    MemoryOptimized  8        64 GiB    12800
+Standard_E16s_v3   MemoryOptimized  16       128 GiB   25600
+Standard_E32s_v3   MemoryOptimized  32       256 GiB   32000
+Standard_E48s_v3   MemoryOptimized  48       384 GiB   51200
+Standard_E64s_v3   MemoryOptimized  64       432 GiB   76800
+Standard_E2ds_v4   MemoryOptimized  2        16 GiB    3200
+Standard_E4ds_v4   MemoryOptimized  4        32 GiB    6400
+Standard_E8ds_v4   MemoryOptimized  8        64 GiB    12800
+Standard_E16ds_v4  MemoryOptimized  16       128 GiB   25600
+Standard_E20ds_v4  MemoryOptimized  20       160 GiB   32000
+Standard_E32ds_v4  MemoryOptimized  32       256 GiB   51200
+Standard_E48ds_v4  MemoryOptimized  48       384 GiB   76800
+Standard_E64ds_v4  MemoryOptimized  64       432 GiB   80000
+Standard_E2ds_v5   MemoryOptimized  2        16 GiB    3750
+Standard_E4ds_v5   MemoryOptimized  4        32 GiB    6400
+Standard_E8ds_v5   MemoryOptimized  8        64 GiB    12800
+Standard_E16ds_v5  MemoryOptimized  16       128 GiB   25600
+Standard_E20ds_v5  MemoryOptimized  20       160 GiB   32000
+Standard_E32ds_v5  MemoryOptimized  32       256 GiB   51200
+Standard_E48ds_v5  MemoryOptimized  48       384 GiB   76800
+Standard_E64ds_v5  MemoryOptimized  64       512 GiB   80000
+Standard_E96ds_v5  MemoryOptimized  96       672 GiB   80000
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-07-01 16:28:56] Початок створення інфраструктури для Django додатку...
+[2025-07-01 16:28:56] Проект: django-app
+[2025-07-01 16:28:56] Середовище: production
+[2025-07-01 16:28:56] Регіон: West Europe
+[2025-07-01 16:28:56] Перевірка залежностей...
+[2025-07-01 16:28:56] ✅ Всі залежності встановлені
+[2025-07-01 16:28:56] Створення Resource Group: django-app-production-rg
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "django-app-production-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+[2025-07-01 16:28:59] Створення Storage Account: djapp1387336
+{
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2025-07-01T16:29:02.530377+00:00",
+  "customDomain": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-01T16:29:02.795973+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-01T16:29:02.795973+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Storage/storageAccounts/djapp1387336",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2025-07-01T16:29:02.780349+00:00",
+    "key2": "2025-07-01T16:29:02.780349+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "westeurope",
+  "minimumTlsVersion": "TLS1_0",
+  "name": "djapp1387336",
+  "networkRuleSet": {
+    "bypass": "AzureServices",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "primaryEndpoints": {
+    "blob": "https://djapp1387336.blob.core.windows.net/",
+    "dfs": "https://djapp1387336.dfs.core.windows.net/",
+    "file": "https://djapp1387336.file.core.windows.net/",
+    "internetEndpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://djapp1387336.queue.core.windows.net/",
+    "table": "https://djapp1387336.table.core.windows.net/",
+    "web": "https://djapp1387336.z6.web.core.windows.net/"
+  },
+  "primaryLocation": "westeurope",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "django-app-production-rg",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": null,
+  "secondaryLocation": null,
+  "sku": {
+    "name": "Standard_LRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": null,
+  "storageAccountSkuConversionStatus": null,
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Storage/storageAccounts"
+}
+{
+  "created": false
+}
+{
+  "created": false
+}
+[2025-07-01 16:29:25] Створення PostgreSQL сервера: django-app-production-db-1751387336
+The default value of '--version' will be changed to '17' from '16' in next breaking change release(2.73.0) scheduled for May 2025.
+The default value of '--create-default-database' will be changed to 'Disabled' from 'Enabled' in next breaking change release(2.73.0) scheduled for May 2025.
+Update default value of "--sku-name" in next breaking change release(2.73.0) scheduled for May 2025. The default value will be changed from "Standard_D2s_v3" to a supported sku based on regional capabilities.
+Checking the existence of the resource group 'django-app-production-rg'...
+Resource group 'django-app-production-rg' exists ? : True 
+The default value for the PostgreSQL server major version will be updating to 17 in the near future.
+Creating PostgreSQL Server 'django-app-production-db-1751387336' in group 'django-app-production-rg'...
+Your server 'django-app-production-db-1751387336' is using sku 'Standard_D2ds_v4' (Paid Tier). Please refer to https://aka.ms/postgres-pricing for pricing details
+Configuring server firewall rule, 'azure-access', to accept connections from all Azure resources...
+Creating PostgreSQL database 'flexibleserverdb'...
+Make a note of your password. If you forget, you would have to reset your password with "az postgres flexible-server update -n django-app-production-db-1751387336 -g django-app-production-rg -p <new-password>".
+Try using 'az postgres flexible-server connect' command to test out connection.
+{
+  "connectionString": "postgresql://djangoadmin:eGwSA1oIVcwLGiKmAa1!@django-app-production-db-1751387336.postgres.database.azure.com/flexibleserverdb?sslmode=require",
+  "databaseName": "flexibleserverdb",
+  "firewallName": "AllowAllAzureServicesAndResourcesWithinAzureIps_2025-7-1_16-33-32",
+  "host": "django-app-production-db-1751387336.postgres.database.azure.com",
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/django-app-production-db-1751387336",
+  "location": "West Europe",
+  "password": "eGwSA1oIVcwLGiKmAa1!",
+  "resourceGroup": "django-app-production-rg",
+  "skuname": "Standard_D2ds_v4",
+  "username": "djangoadmin",
+  "version": "14"
+}
+[2025-07-01 16:34:46] Створення бази даних: django-app_db
+Creating database with utf8 charset and en_US.utf8 collation
+{
+  "charset": "UTF8",
+  "collation": "en_US.utf8",
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/django-app-production-db-1751387336/databases/django-app_db",
+  "name": "django-app_db",
+  "resourceGroup": "django-app-production-rg",
+  "systemData": null,
+  "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases"
+}
+[2025-07-01 16:35:00] Налаштування firewall правил для бази даних
+{
+  "endIpAddress": "0.0.0.0",
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/django-app-production-db-1751387336/firewallRules/AllowAzureServices",
+  "name": "AllowAzureServices",
+  "resourceGroup": "django-app-production-rg",
+  "startIpAddress": "0.0.0.0",
+  "systemData": null,
+  "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
+}
+[2025-07-01 16:36:02] Створення Key Vault: django-app-production-kv-1751387336
+(VaultNameNotValid) The vault name 'django-app-production-kv-1751387336' is invalid. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens. Follow this link for more information: https://go.microsoft.com/fwlink/?linkid=2147742
+Code: VaultNameNotValid
+Message: The vault name 'django-app-production-kv-1751387336' is invalid. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens. Follow this link for more information: https://go.microsoft.com/fwlink/?linkid=2147742
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
+# Відмінний прогрес! 🎉
+
+## Стан на зараз:
+- ✅ **Resource Group:** `django-app-production-rg` - створено
+- ✅ **Storage Account:** `djapp1387336` - створено успішно
+- ✅ **PostgreSQL Server:** `django-app-production-db-1751387336` - створено!
+- ✅ **Database:** `django-app_db` - створено
+- ✅ **Firewall Rules** - налаштовано
+- ❌ **Key Vault:** помилка з назвою (занадто довга)
+
+## Важлива інформація про базу даних:
+
+**PostgreSQL Connection Details:**
+- **Host:** `django-app-production-db-1751387336.postgres.database.azure.com`
+- **Username:** `djangoadmin`
+- **Password:** `eGwSA1oIVcwLGiKmAa1!`
+- **Database:** `django-app_db`
+- **Port:** `5432` (стандартний)
+- **SSL:** Required
+
+## Виправлення Key Vault
+
+Проблема: назва Key Vault занадто довга (35 символів). Azure вимагає 3-24 символи.
+
+### Швидке виправлення:
+
+```bash
+# Створіть Key Vault з короткою назвою
+KV_NAME="djapp-kv-$(date +%s | tail -c 6)"
+echo "Key Vault name: $KV_NAME"
+
+az keyvault create \
+    --name "$KV_NAME" \
+    --resource-group "django-app-production-rg" \
+    --location "westeurope" \
+    --enabled-for-template-deployment true \
+    --tags Project="django-app" Environment="production" CreatedBy="AzureCLI"
+```
+
+### Або використайте ще коротшу назву:
+
+```bash
+# Максимально коротка назва
+KV_NAME="djappkv$(date +%H%M%S)"
+echo "Key Vault name: $KV_NAME (length: ${#KV_NAME})"
+
+az keyvault create \
+    --name "$KV_NAME" \
+    --resource-group "django-app-production-rg" \
+    --location "westeurope"
+```
+
+### Для виправлення скрипту в майбутньому:## Створення App Service та завершення інфраструктури
+
+Оскільки основні ресурси створені, давайте створимо App Service:
+
+```bash
+# Змінні
+RG_NAME="django-app-production-rg"
+APP_SERVICE_PLAN="django-webapp-plan"
+WEB_APP_NAME="django-webapp-$(date +%s | tail -c 6)"
+LOCATION="westeurope"
+
+# Створення App Service Plan
+az appservice plan create \
+    --name "$APP_SERVICE_PLAN" \
+    --resource-group "$RG_NAME" \
+    --location "$LOCATION" \
+    --is-linux \
+    --sku B1
+
+# Створення Web App
+az webapp create \
+    --resource-group "$RG_NAME" \
+    --plan "$APP_SERVICE_PLAN" \
+    --name "$WEB_APP_NAME" \
+    --runtime "PYTHON:3.11"
+
+echo "Web App URL: https://${WEB_APP_NAME}.azurewebsites.net"
+```
+
+## Налаштування змінних середовища для Django:
+
+```bash
+# Налаштування підключення до бази даних
+az webapp config appsettings set \
+    --resource-group "$RG_NAME" \
+    --name "$WEB_APP_NAME" \
+    --settings \
+        DATABASE_URL="postgresql://djangoadmin:eGwSA1oIVcwLGiKmAa1!@django-app-production-db-1751387336.postgres.database.azure.com:5432/django-app_db" \
+        DJANGO_SETTINGS_MODULE="myproject.settings" \
+        DEBUG="False" \
+        ALLOWED_HOSTS="${WEB_APP_NAME}.azurewebsites.net" \
+        AZURE_STORAGE_ACCOUNT_NAME="djapp1387336"
+```
+
+## Поточний статус ресурсів:
+
+```bash
+# Перегляд всіх створених ресурсів
+az resource list \
+    --resource-group "django-app-production-rg" \
+    --output table
+```
+
+Хочете, щоб я допоміг з створенням Key Vault та App Service, або ви самі продовжите?
+
+
+
+
+
