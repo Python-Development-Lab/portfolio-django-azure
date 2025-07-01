@@ -2940,5 +2940,253 @@ az resource list \
 
 
 
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-07-01 17:03:50] Початок створення інфраструктури для Django додатку...
+[2025-07-01 17:03:50] Проект: django-app
+[2025-07-01 17:03:50] Середовище: production
+[2025-07-01 17:03:50] Регіон: West Europe
+[2025-07-01 17:03:50] Перевірка залежностей...
+[2025-07-01 17:03:51] ✅ Всі залежності встановлені
+[2025-07-01 17:03:51] Створення Resource Group: django-app-production-rg
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "django-app-production-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+[2025-07-01 17:03:53] Створення Storage Account: djapp1389430
+{
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2025-07-01T17:03:56.457466+00:00",
+  "customDomain": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-01T17:03:56.613710+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-01T17:03:56.613710+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Storage/storageAccounts/djapp1389430",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2025-07-01T17:03:56.613710+00:00",
+    "key2": "2025-07-01T17:03:56.613710+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "westeurope",
+  "minimumTlsVersion": "TLS1_0",
+  "name": "djapp1389430",
+  "networkRuleSet": {
+    "bypass": "AzureServices",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "primaryEndpoints": {
+    "blob": "https://djapp1389430.blob.core.windows.net/",
+    "dfs": "https://djapp1389430.dfs.core.windows.net/",
+    "file": "https://djapp1389430.file.core.windows.net/",
+    "internetEndpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://djapp1389430.queue.core.windows.net/",
+    "table": "https://djapp1389430.table.core.windows.net/",
+    "web": "https://djapp1389430.z6.web.core.windows.net/"
+  },
+  "primaryLocation": "westeurope",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "django-app-production-rg",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": null,
+  "secondaryLocation": null,
+  "sku": {
+    "name": "Standard_LRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": null,
+  "storageAccountSkuConversionStatus": null,
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Storage/storageAccounts"
+}
+{
+  "created": false
+}
+{
+  "created": false
+}
+[2025-07-01 17:04:18] Створення PostgreSQL сервера: django-app-production-db-1751389430
+The default value of '--version' will be changed to '17' from '16' in next breaking change release(2.73.0) scheduled for May 2025.
+The default value of '--create-default-database' will be changed to 'Disabled' from 'Enabled' in next breaking change release(2.73.0) scheduled for May 2025.
+Update default value of "--sku-name" in next breaking change release(2.73.0) scheduled for May 2025. The default value will be changed from "Standard_D2s_v3" to a supported sku based on regional capabilities.
+Checking the existence of the resource group 'django-app-production-rg'...
+Resource group 'django-app-production-rg' exists ? : True 
+The default value for the PostgreSQL server major version will be updating to 17 in the near future.
+Creating PostgreSQL Server 'django-app-production-db-1751389430' in group 'django-app-production-rg'...
+Your server 'django-app-production-db-1751389430' is using sku 'Standard_D2ds_v4' (Paid Tier). Please refer to https://aka.ms/postgres-pricing for pricing details
+Configuring server firewall rule, 'azure-access', to accept connections from all Azure resources...
+Creating PostgreSQL database 'flexibleserverdb'...
+Make a note of your password. If you forget, you would have to reset your password with "az postgres flexible-server update -n django-app-production-db-1751389430 -g django-app-production-rg -p <new-password>".
+Try using 'az postgres flexible-server connect' command to test out connection.
+{
+  "connectionString": "postgresql://djangoadmin:sKtnRoqzUH8DB2QTAa1!@django-app-production-db-1751389430.postgres.database.azure.com/flexibleserverdb?sslmode=require",
+  "databaseName": "flexibleserverdb",
+  "firewallName": "AllowAllAzureServicesAndResourcesWithinAzureIps_2025-7-1_17-9-25",
+  "host": "django-app-production-db-1751389430.postgres.database.azure.com",
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/django-app-production-db-1751389430",
+  "location": "West Europe",
+  "password": "sKtnRoqzUH8DB2QTAa1!",
+  "resourceGroup": "django-app-production-rg",
+  "skuname": "Standard_D2ds_v4",
+  "username": "djangoadmin",
+  "version": "14"
+}
+[2025-07-01 17:10:38] Створення бази даних: django-app_db
+Creating database with utf8 charset and en_US.utf8 collation
+{
+  "charset": "UTF8",
+  "collation": "en_US.utf8",
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/django-app-production-db-1751389430/databases/django-app_db",
+  "name": "django-app_db",
+  "resourceGroup": "django-app-production-rg",
+  "systemData": null,
+  "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases"
+}
+[2025-07-01 17:10:51] Налаштування firewall правил для бази даних
+{
+  "endIpAddress": "0.0.0.0",
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/django-app-production-db-1751389430/firewallRules/AllowAzureServices",
+  "name": "AllowAzureServices",
+  "resourceGroup": "django-app-production-rg",
+  "startIpAddress": "0.0.0.0",
+  "systemData": null,
+  "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
+}
+[2025-07-01 17:11:53] Створення Key Vault: djapp-kv-89430
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.KeyVault/vaults/djapp-kv-89430",
+  "location": "westeurope",
+  "name": "djapp-kv-89430",
+  "properties": {
+    "accessPolicies": [],
+    "createMode": null,
+    "enablePurgeProtection": null,
+    "enableRbacAuthorization": true,
+    "enableSoftDelete": true,
+    "enabledForDeployment": false,
+    "enabledForDiskEncryption": null,
+    "enabledForTemplateDeployment": null,
+    "hsmPoolResourceId": null,
+    "networkAcls": null,
+    "privateEndpointConnections": null,
+    "provisioningState": "Succeeded",
+    "publicNetworkAccess": "Enabled",
+    "sku": {
+      "family": "A",
+      "name": "standard"
+    },
+    "softDeleteRetentionInDays": 90,
+    "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8",
+    "vaultUri": "https://djapp-kv-89430.vault.azure.net/"
+  },
+  "resourceGroup": "django-app-production-rg",
+  "systemData": {
+    "createdAt": "2025-07-01T17:11:55.146000+00:00",
+    "createdBy": "vitalii_shevchuk3@epam.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2025-07-01T17:11:55.146000+00:00",
+    "lastModifiedBy": "vitalii_shevchuk3@epam.com",
+    "lastModifiedByType": "User"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.KeyVault/vaults"
+}
+[2025-07-01 17:12:28] Додавання секретів до Key Vault
+(Forbidden) Caller is not authorized to perform action on resource.
+If role assignments, deny assignments or role definitions were changed recently, please observe propagation time.
+Caller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=2b519bbb-fa41-470c-9279-95f55f66c3b9;iss=https://sts.windows.net/3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8/
+Action: 'Microsoft.KeyVault/vaults/secrets/setSecret/action'
+Resource: '/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourcegroups/django-app-production-rg/providers/microsoft.keyvault/vaults/djapp-kv-89430/secrets/django-secret-key'
+Assignment: (not found)
+DenyAssignmentId: null
+DecisionReason: null 
+Vault: djapp-kv-89430;location=westeurope
+
+Code: Forbidden
+Message: Caller is not authorized to perform action on resource.
+If role assignments, deny assignments or role definitions were changed recently, please observe propagation time.
+Caller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=2b519bbb-fa41-470c-9279-95f55f66c3b9;iss=https://sts.windows.net/3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8/
+Action: 'Microsoft.KeyVault/vaults/secrets/setSecret/action'
+Resource: '/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourcegroups/django-app-production-rg/providers/microsoft.keyvault/vaults/djapp-kv-89430/secrets/django-secret-key'
+Assignment: (not found)
+DenyAssignmentId: null
+DecisionReason: null 
+Vault: djapp-kv-89430;location=westeurope
+
+Inner error: {
+    "code": "ForbiddenByRbac"
+}
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
+
 
 
