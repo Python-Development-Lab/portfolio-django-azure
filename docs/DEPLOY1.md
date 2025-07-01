@@ -2021,3 +2021,116 @@ az webapp deployment source config-zip \
 
 
 
+# Помилка з авторизацією в GitHub Actions 🔐
+
+Проблема в тому, що GitHub Actions не має доступу до Azure без налаштування автентифікації. Ось кілька способів вирішення:
+
+## Варіант 1: Використання Publish Profile (найпростіший)
+
+### Крок 1: Отримайте Publish Profile
+
+```bash
+# Завантажте publish profile
+az webapp deployment list-publishing-profiles \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --xml
+```
+
+### Крок 2: Додайте секрет в GitHub
+
+1. Скопіюйте весь XML вивід з попередньої команди
+2. Йдіть на GitHub: **Settings** → **Secrets and variables** → **Actions**
+3. Натисніть **New repository secret**
+4. Назва: `AZURE_WEBAPP_PUBLISH_PROFILE`
+5. Вставте XML контент
+
+## Варіант 2: Використання Service Principal
+
+### Створення Service Principal:
+
+```bash
+# Створення Service Principal
+az ad sp create-for-rbac \
+    --name "django-portfolio-sp" \
+    --role contributor \
+    --scopes /subscriptions/826d896f-b844-48c3-998e-c8e36c27e681/resourceGroups/django-portfolio-dev-rg \
+    --sdk-auth
+```
+
+### Додайте отриманий JSON як секрет `AZURE_CREDENTIALS`
+
+## Варіант 3: Оновлений GitHub Actions workflow## Варіант 4: Простіший workflow без Azure CLI## ШВИДКЕ РІШЕННЯ: ZIP деплоймент зараз
+
+Поки налаштовуєте GitHub Actions, спробуйте локальний деплоймент:
+
+```bash
+# Створіть ZIP файл
+zip -r portfolio.zip . -x "*.git*" "*__pycache__*" "*.pyc" "venv/*"
+
+# Деплой
+az webapp deployment source config-zip \
+    --src portfolio.zip \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+```
+
+## Покрокові дії:
+
+### 1. Спочатку отримайте publish profile:
+```bash
+az webapp deployment list-publishing-profiles \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --xml > publish-profile.xml
+
+cat publish-profile.xml
+```
+
+### 2. Додайте секрет в GitHub:
+- Зайдіть у ваш репозиторій на GitHub
+- **Settings** → **Secrets and variables** → **Actions**
+- **New repository secret**
+- Назва: `AZURE_WEBAPP_PUBLISH_PROFILE`
+- Значення: весь XML контент
+
+### 3. Використайте простий workflow (артефакт вище)
+
+### 4. Або спробуйте ZIP деплоймент прямо зараз!
+
+Що хочете спробувати спочатку?
+
+
+
+```bash
+name: Deploy Django to Azure
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'django-portfolio-web-1751348856'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
+```
