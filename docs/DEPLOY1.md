@@ -1163,3 +1163,271 @@ Message: The client 'vitalii_shevchuk3@epam.com' with object id '3c895225-e112-4
 @VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
 ```
 
+
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az logout
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az login
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code C4EBSP56X to authenticate.
+
+Retrieving tenants and subscriptions for the selection...
+
+[Tenant and subscription selection]
+
+No     Subscription name     Subscription ID                       Tenant
+-----  --------------------  ------------------------------------  -----------------
+[1]    Azure subscription 1  0023db84-3d8f-4017-b39e-ce7826ea388d  Default Directory
+[2] *  Azure для учащихся    826d896f-b844-48c3-998e-c8e36c27e681  Default Directory
+
+The default is marked with an *; the default tenant is 'Default Directory' and subscription is 'Azure для учащихся' (826d896f-b844-48c3-998e-c8e36c27e681).
+
+Select a subscription and tenant (Type a number or Enter for no changes): 2
+
+Tenant: Default Directory
+Subscription: Azure для учащихся (826d896f-b844-48c3-998e-c8e36c27e681)
+
+[Announcements]
+With the new Azure CLI login experience, you can select the subscription you want to use more easily. Learn more about it and its configuration at https://go.microsoft.com/fwlink/?linkid=2271236
+
+If you encounter any problem, please open an issue at https://aka.ms/azclibug
+
+[Warning] The login output has been updated. Please be aware that it no longer displays the full list of available subscriptions by default.
+
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./script_azure.sh
+[2025-07-01 04:04:30] Початок створення інфраструктури для Django додатку...
+[2025-07-01 04:04:30] Проект: django-app
+[2025-07-01 04:04:30] Середовище: production
+[2025-07-01 04:04:30] Регіон: West Europe
+[2025-07-01 04:04:30] Перевірка залежностей...
+[2025-07-01 04:04:30] ✅ Всі залежності встановлені
+[2025-07-01 04:04:30] Створення Resource Group: django-app-production-rg
+{
+  "id": "/subscriptions/826d896f-b844-48c3-998e-c8e36c27e681/resourceGroups/django-app-production-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "django-app-production-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+[2025-07-01 04:04:33] Створення Storage Account: django-appproductionstorage1751342670
+(SubscriptionNotFound) Subscription 826d896f-b844-48c3-998e-c8e36c27e681 was not found.
+Code: SubscriptionNotFound
+Message: Subscription 826d896f-b844-48c3-998e-c8e36c27e681 was not found.
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $
+```
+
+## Проблема з підпискою "Azure для учащихся" ⚠️
+
+Схоже, що підписка "Azure для учащихся" має обмеження або тимчасово недоступна. Спробуймо перемкнутися на іншу підписку.
+
+## Рішення
+
+### 1. Перемкніться на першу підписку
+
+```bash
+az account set --subscription "0023db84-3d8f-4017-b39e-ce7826ea388d"
+az account show
+```
+
+### 2. Перевірте доступні підписки та їх статус
+
+```bash
+# Детальна інформація про підписки
+az account list --output table
+
+# Перевірка поточної підписки
+az account show --query "{Name:name, ID:id, State:state}" --output table
+```
+
+### 3. Якщо перша підписка працює, запустіть скрипт знову
+
+```bash
+./script_azure.sh
+```
+
+## Альтернативне рішення - модифікація для student підписки
+
+Якщо хочете залишитися з student підпискою, створіть спрощену версію:## Рекомендовані дії:
+
+### Спочатку спробуйте перемкнутися на першу підписку:
+
+```bash
+az account set --subscription "0023db84-3d8f-4017-b39e-ce7826ea388d"
+./script_azure.sh
+```
+
+### Якщо це не працює, використовуйте студентський скрипт:
+
+```bash
+# Створіть новий файл
+nano script_azure_student.sh
+
+# Скопіюйте код з артефакту вище
+# Зробіть виконуваним
+chmod +x script_azure_student.sh
+
+# Запустіть
+./script_azure_student.sh
+```
+
+```bash
+#!/bin/bash
+
+# Налаштування для студентської підписки
+PROJECT_NAME="django-portfolio"
+ENVIRONMENT="dev"  # Використовуємо dev замість production
+LOCATION="westeurope"
+TIMESTAMP=$(date +%s)
+
+# Унікальні назви (коротші для студентської підписки)
+RG_NAME="${PROJECT_NAME}-${ENVIRONMENT}-rg"
+STORAGE_NAME="djstore${TIMESTAMP}"
+APP_PLAN_NAME="${PROJECT_NAME}-plan"
+WEB_APP_NAME="${PROJECT_NAME}-web-${TIMESTAMP}"
+
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Створення інфраструктури для Django (Student Edition)..."
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Проект: $PROJECT_NAME"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Середовище: $ENVIRONMENT"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Регіон: $LOCATION"
+
+# Перевірка підписки
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Перевірка підписки..."
+SUBSCRIPTION_INFO=$(az account show --query "{name:name, id:id, state:state}" --output json)
+echo "Поточна підписка: $(echo $SUBSCRIPTION_INFO | jq -r .name)"
+
+if [ "$(echo $SUBSCRIPTION_INFO | jq -r .state)" != "Enabled" ]; then
+    echo "[ERROR] Підписка не активна. Статус: $(echo $SUBSCRIPTION_INFO | jq -r .state)"
+    exit 1
+fi
+
+# Створення Resource Group
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Створення Resource Group: $RG_NAME"
+az group create \
+    --name "$RG_NAME" \
+    --location "$LOCATION" \
+    --tags Project="$PROJECT_NAME" Environment="$ENVIRONMENT" CreatedBy="StudentScript"
+
+if [ $? -ne 0 ]; then
+    echo "[ERROR] Не вдалося створити Resource Group"
+    exit 1
+fi
+
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ Resource Group створено"
+
+# Створення App Service Plan (безкоштовний рівень для студентів)
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Створення App Service Plan: $APP_PLAN_NAME"
+az appservice plan create \
+    --name "$APP_PLAN_NAME" \
+    --resource-group "$RG_NAME" \
+    --location "$LOCATION" \
+    --sku F1 \
+    --is-linux
+
+if [ $? -ne 0 ]; then
+    echo "[ERROR] Не вдалося створити App Service Plan"
+    exit 1
+fi
+
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ App Service Plan створено"
+
+# Створення Web App
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Створення Web App: $WEB_APP_NAME"
+az webapp create \
+    --name "$WEB_APP_NAME" \
+    --resource-group "$RG_NAME" \
+    --plan "$APP_PLAN_NAME" \
+    --runtime "PYTHON:3.11"
+
+if [ $? -ne 0 ]; then
+    echo "[ERROR] Не вдалося створити Web App"
+    exit 1
+fi
+
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ Web App створено"
+
+# Спроба створення Storage Account (мінімальний рівень)
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Створення Storage Account: $STORAGE_NAME"
+az storage account create \
+    --name "$STORAGE_NAME" \
+    --resource-group "$RG_NAME" \
+    --location "$LOCATION" \
+    --sku Standard_LRS \
+    --kind BlobStorage \
+    --access-tier Hot
+
+if [ $? -eq 0 ]; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ Storage Account створено"
+    
+    # Налаштування веб-додатку
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Налаштування Django..."
+    
+    # Отримання ключа Storage Account
+    STORAGE_KEY=$(az storage account keys list \
+        --account-name "$STORAGE_NAME" \
+        --resource-group "$RG_NAME" \
+        --query "[0].value" --output tsv)
+    
+    # Налаштування змінних середовища
+    az webapp config appsettings set \
+        --name "$WEB_APP_NAME" \
+        --resource-group "$RG_NAME" \
+        --settings \
+            DJANGO_SETTINGS_MODULE="myproject.settings" \
+            PYTHONPATH="/home/site/wwwroot" \
+            SCM_DO_BUILD_DURING_DEPLOYMENT=true \
+            AZURE_STORAGE_ACCOUNT_NAME="$STORAGE_NAME" \
+            AZURE_STORAGE_ACCOUNT_KEY="$STORAGE_KEY" \
+            DEBUG=False \
+            ALLOWED_HOSTS="${WEB_APP_NAME}.azurewebsites.net,localhost,127.0.0.1"
+            
+else
+    echo "[WARNING] Не вдалося створити Storage Account. Продовжуємо без нього..."
+    
+    # Базові налаштування без Storage
+    az webapp config appsettings set \
+        --name "$WEB_APP_NAME" \
+        --resource-group "$RG_NAME" \
+        --settings \
+            DJANGO_SETTINGS_MODULE="myproject.settings" \
+            PYTHONPATH="/home/site/wwwroot" \
+            SCM_DO_BUILD_DURING_DEPLOYMENT=true \
+            DEBUG=False \
+            ALLOWED_HOSTS="${WEB_APP_NAME}.azurewebsites.net,localhost,127.0.0.1"
+fi
+
+# Результати
+echo ""
+echo "=================================="
+echo "🎓 STUDENT DEPLOYMENT ГОТОВИЙ!"
+echo "=================================="
+echo "Resource Group: $RG_NAME"
+echo "App Service Plan: $APP_PLAN_NAME (F1 - Free)"
+echo "Web App: $WEB_APP_NAME"
+echo "Web App URL: https://${WEB_APP_NAME}.azurewebsites.net"
+if [ -n "$STORAGE_NAME" ]; then
+    echo "Storage Account: $STORAGE_NAME"
+fi
+echo ""
+echo "Наступні кроки для деплойменту:"
+echo "1. Підключіть GitHub репозиторій:"
+echo "   az webapp deployment source config --name $WEB_APP_NAME --resource-group $RG_NAME --repo-url https://github.com/YOUR_USERNAME/YOUR_REPO --branch main"
+echo ""
+echo "2. Або використайте ZIP деплоймент:"
+echo "   az webapp deployment source config-zip --src portfolio.zip --name $WEB_APP_NAME --resource-group $RG_NAME"
+echo ""
+echo "3. Перегляньте логи:"
+echo "   az webapp log tail --name $WEB_APP_NAME --resource-group $RG_NAME"
+echo ""
+echo "4. Перезапустіть додаток після деплойменту:"
+echo "   az webapp restart --name $WEB_APP_NAME --resource-group $RG_NAME"
+echo "=================================="
+
+
+```
