@@ -1901,10 +1901,123 @@ az webapp config hostname add \
 Готові розпочати деплоймент? Який варіант (GitHub чи ZIP) вам більше підходить?
 
 
+```bash
+VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ az webapp deployment source config \
+>     --name django-portfolio-web-1751348856 \
+>     --resource-group django-portfolio-dev-rg \
+>     --repo-url https://github.com/VitaliiShevchuk2023/portfolio-django-azure \
+>     --branch main \
+>     --manual-integration
+location is not a known attribute of class <class 'azure.mgmt.web.v2023_12_01.models._models_py3.SiteSourceControl'> and will be ignored
+Repository 'UpdateSiteSourceControl' operation failed with System.TimeoutException: Operation GET https://waws-prod-am2-601.api.azurewebsites.windows.net/api/sshkey?ensurePublicKey=True exceeded 50000ms timeout!
+   at Microsoft.Web.Hosting.Administration.Utilities.WebRequestHelper.<GetResponseAsyncWithTimeout>d__10.MoveNext() in /_/src/hosting/AdministrationService/Microsoft.Web.Hosting.Administration.WebCommon/Utilities/WebRequestHelper.cs:line 40
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.Web.Hosting.Administration.SiteRepositoryProvider.TrackerContext.<GetResponseAsync>d__41.MoveNext() in /_/src/hosting/AdministrationService/Microsoft.Web.Hosting.Administration.WebCommon/Providers/SiteRepositoryProvider.cs:line 800
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.Web.Hosting.Administration.SiteRepositoryProvider.<GetSSHKey>d__29.MoveNext() in /_/src/hosting/AdministrationService/Microsoft.Web.Hosting.Administration.WebCommon/Providers/SiteRepositoryProvider.cs:line 320
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.Web.Hosting.Administration.ExternalSiteRepositoryProvider.<EnsureSSHKey>d__8.MoveNext() in /_/src/hosting/AdministrationService/Microsoft.Web.Hosting.Administration.WebCommon/Providers/ExternalSiteRepositoryProvider.cs:line 113
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.Web.Hosting.Administration.ExternalSiteRepositoryProvider.<UpdateSiteSourceControl>d__5.MoveNext() in /_/src/hosting/AdministrationService/Microsoft.Web.Hosting.Administration.WebCommon/Providers/ExternalSiteRepositoryProvider.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.Web.Hosting.Administration.WebCloudController.<>c__DisplayClass384_1.<<UpdateSiteSourceControl>b__1>d.MoveNext() in /_/src/Hosting/AdministrationService/Microsoft.Web.Hosting.Administration/Controllers/WebCloudController.cs:line 11388
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.Web.Hosting.AsyncHelper.RunSync[TResult](Func`1 func) in /_/src/Hosting/Microsoft.Web.Hosting/Utilities/AsyncHelper.cs:line 27
+   at Microsoft.Web.Hosting.Administration.WebCloudController.UpdateSiteSourceControl(String subscriptionName, String webspaceName, String name, SiteSourceControl siteSourceControl) in /_/src/Hosting/AdministrationService/Microsoft.Web.Hosting.Administration/Controllers/WebCloudController.cs:line 11383.
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
 
+## Проблема з GitHub інтеграцією ⚠️
 
+Схоже на timeout при спробі встановити SSH ключ для GitHub інтеграції. Спробуємо альтернативні методи деплойменту.
 
+## Варіант 1: ZIP деплоймент (найпростіший)
 
+```bash
+# Створіть ZIP архів вашого проекту
+zip -r portfolio.zip . -x "*.git*" "*__pycache__*" "*.pyc" "venv/*" "node_modules/*"
+
+# Деплой через ZIP
+az webapp deployment source config-zip \
+    --src portfolio.zip \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+```
+
+## Варіант 2: GitHub Actions (рекомендований для продакшену)
+
+Створіть файл `.github/workflows/azure-deploy.yml`:## Варіант 3: Локальний Git деплоймент
+
+```bash
+# Налаштування локального Git репозиторію для деплойменту
+az webapp deployment source config-local-git \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+
+# Отримайте URL для Git деплойменту
+GIT_URL=$(az webapp deployment source show \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --query "repoUrl" --output tsv)
+
+echo "Git URL: $GIT_URL"
+```
+
+## Варіант 4: FTP деплоймент
+
+```bash
+# Отримання FTP credentials
+az webapp deployment list-publishing-credentials \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg \
+    --query "{ftpUrl:scmUri, username:publishingUserName, password:publishingPassword}"
+```
+
+## Рекомендації для швидкого результату
+
+### Спробуйте ZIP деплоймент прямо зараз:
+
+```bash
+# Перевірте структуру файлів
+ls -la
+
+# Створіть ZIP (виключаючи непотрібні файли)
+zip -r portfolio.zip . \
+    -x "*.git*" \
+    -x "*__pycache__*" \
+    -x "*.pyc" \
+    -x "venv/*" \
+    -x "env/*" \
+    -x "node_modules/*" \
+    -x ".vscode/*"
+
+# Перевірте розмір ZIP файлу
+ls -lh portfolio.zip
+
+# Деплой
+az webapp deployment source config-zip \
+    --src portfolio.zip \
+    --name django-portfolio-web-1751348856 \
+    --resource-group django-portfolio-dev-rg
+```
+
+### Також підготуйте необхідні файли:### Спробуйте спочатку ZIP деплоймент - це найпростіший спосіб перевірити, що все працює!
+
+Після успішного ZIP деплойменту можна налаштувати GitHub Actions для автоматичних деплойментів при пушах у репозиторій.
+
+Готові спробувати ZIP деплоймент?
 
 
 
