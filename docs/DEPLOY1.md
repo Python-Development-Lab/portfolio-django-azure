@@ -2292,3 +2292,58 @@ az webapp restart \
 ```
 
 Покажіть мені вивід команди `ls -la` та `find . -name "wsgi.py"`, щоб я міг точно сказати, яку назву проекту використовувати!
+
+
+
+
+---------------------------------------------------------------------------------------------------------------
+
+# Помилка з назвою Storage Account ❌
+
+Проблема: назва Storage Account занадто довга (36 символів) і містить дефіси. Azure вимагає:
+- **3-24 символи**
+- **Тільки цифри та малі літери**
+- **Без дефісів та спеціальних символів**
+
+## Швидке виправлення
+
+Відредагуйте ваш `script_azure.sh` файл:## Або швидке виправлення прямо в терміналі:
+
+```bash
+# Відредагуйте скрипт
+nano script_azure.sh
+
+# Знайдіть рядок зі STORAGE_NAME та замініть на:
+# STORAGE_NAME="djapp$(date +%s | tail -c 8)"
+```
+
+## Альтернативно - запустіть з виправленим скриптом:## Швидкі команди для виправлення:
+
+### 1. Виправте назву в скрипті:
+```bash
+# Замініть рядок у script_azure.sh
+sed -i 's/STORAGE_NAME=.*/STORAGE_NAME="djapp$(date +%s | tail -c 8)"/' script_azure.sh
+```
+
+### 2. Або створіть Storage Account вручну:
+```bash
+# Створіть з правильною назвою
+STORAGE_NAME="djapp$(date +%s | tail -c 8)"
+echo "Storage name: $STORAGE_NAME"
+
+az storage account create \
+    --name "$STORAGE_NAME" \
+    --resource-group "django-app-production-rg" \
+    --location "westeurope" \
+    --sku Standard_LRS
+```
+
+### 3. Перевірте довжину назви:
+```bash
+STORAGE_NAME="djapp$(date +%s | tail -c 8)"
+echo "Storage name: $STORAGE_NAME (length: ${#STORAGE_NAME})"
+```
+
+Виберіть один з варіантів і запустіть знову. Resource Group вже створена, тому можна просто виправити Storage Account і продовжити!
+
+-------------------------------------------------------------------------------------------------------------------------------
