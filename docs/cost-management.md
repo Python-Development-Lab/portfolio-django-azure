@@ -136,9 +136,11 @@
 **Next Review**: Через 2 тижні для перевірки ефекту оптимізацій
 
 
-
-
 -------------------------------------------
+
+
+![](https://github.com/Python-Development-Lab/portfolio-django-azure/blob/main/images/github-issue-1.png)
+
 
 Бачу, що у вас є GitHub Pro або GitHub Team план зі значними безкоштовними лімітами. Ваш поточний рахунок складає $10.84, але це після застосування знижок.
 
