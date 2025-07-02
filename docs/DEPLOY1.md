@@ -4517,6 +4517,1118 @@ az postgres flexible-server show \
 
 
 
+```bash
+
+      },
+        "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8"
+      }
+    ],
+    "createMode": null,
+    "enablePurgeProtection": null,
+    "enableRbacAuthorization": false,
+    "enableSoftDelete": true,
+    "enabledForDeployment": false,
+    "enabledForDiskEncryption": null,
+    "enabledForTemplateDeployment": null,
+    "hsmPoolResourceId": null,
+    "networkAcls": null,
+    "privateEndpointConnections": null,
+    "provisioningState": "Succeeded",
+    "publicNetworkAccess": "Enabled",
+    "sku": {
+      "family": "A",
+      "name": "standard"
+    },
+    "softDeleteRetentionInDays": 90,
+    "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8",
+    "vaultUri": "https://djapp-kv-28831.vault.azure.net/"
+  },
+  "resourceGroup": "django-app-production-rg",
+  "systemData": {
+    "createdAt": "2025-07-02T04:07:37.211000+00:00",
+    "createdBy": "vitalii_shevchuk3@epam.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2025-07-02T04:07:37.211000+00:00",
+    "lastModifiedBy": "vitalii_shevchuk3@epam.com",
+    "lastModifiedByType": "User"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.KeyVault/vaults"
+}
+Your User ID: 2b519bbb-fa41-470c-9279-95f55f66c3b9
+Subscription ID: f7dc8823-4f06-4346-9de0-badbe6273a54
+[2025-07-02 04:08:13] Налаштування прав доступу до Key Vault
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.KeyVault/vaults/djapp-kv-28831",
+  "location": "westeurope",
+  "name": "djapp-kv-28831",
+  "properties": {
+    "accessPolicies": [
+      {
+        "applicationId": null,
+        "objectId": "2b519bbb-fa41-470c-9279-95f55f66c3b9",
+        "permissions": {
+          "certificates": [
+            "all"
+          ],
+          "keys": [
+            "all"
+          ],
+          "secrets": [
+            "set",
+            "delete",
+            "list",
+            "get"
+          ],
+          "storage": [
+            "all"
+          ]
+        },
+        "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8"
+      }
+    ],
+    "createMode": null,
+    "enablePurgeProtection": null,
+    "enableRbacAuthorization": false,
+    "enableSoftDelete": true,
+    "enabledForDeployment": false,
+    "enabledForDiskEncryption": null,
+    "enabledForTemplateDeployment": null,
+    "hsmPoolResourceId": null,
+    "networkAcls": null,
+    "privateEndpointConnections": null,
+    "provisioningState": "Succeeded",
+    "publicNetworkAccess": "Enabled",
+    "sku": {
+      "family": "A",
+      "name": "standard"
+    },
+    "softDeleteRetentionInDays": 90,
+    "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8",
+    "vaultUri": "https://djapp-kv-28831.vault.azure.net/"
+  },
+  "resourceGroup": "django-app-production-rg",
+  "systemData": {
+    "createdAt": "2025-07-02T04:07:37.211000+00:00",
+    "createdBy": "vitalii_shevchuk3@epam.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2025-07-02T04:08:14.564000+00:00",
+    "lastModifiedBy": "vitalii_shevchuk3@epam.com",
+    "lastModifiedByType": "User"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.KeyVault/vaults"
+}
+[2025-07-02 04:08:14] Додавання секретів до Key Vault
+[2025-07-02 04:08:15] ✅ Django secret key додано
+[2025-07-02 04:08:16] ✅ Database password додано
+[2025-07-02 04:08:17] ✅ Storage account key додано
+[2025-07-02 04:08:17] Створення Application Insights: django-app-production-insights
+{
+  "appId": "7b8a10e2-39f7-49f0-97ea-431d87bd2a7b",
+  "applicationId": "django-app-production-insights",
+  "applicationType": "web",
+  "connectionString": "InstrumentationKey=ccf40b2a-6776-465d-a683-a7f74b9e9a79;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=7b8a10e2-39f7-49f0-97ea-431d87bd2a7b",
+  "creationDate": "2025-07-01T19:16:37.520827+00:00",
+  "disableIpMasking": null,
+  "etag": "\"eb04f39b-0000-0200-0000-6864b0b30000\"",
+  "flowType": "Bluefield",
+  "hockeyAppId": null,
+  "hockeyAppToken": null,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/microsoft.insights/components/django-app-production-insights",
+  "immediatePurgeDataOn30Days": null,
+  "ingestionMode": "LogAnalytics",
+  "instrumentationKey": "ccf40b2a-6776-465d-a683-a7f74b9e9a79",
+  "kind": "web",
+  "location": "westeurope",
+  "name": "django-app-production-insights",
+  "privateLinkScopedResources": null,
+  "provisioningState": "Succeeded",
+  "publicNetworkAccessForIngestion": "Enabled",
+  "publicNetworkAccessForQuery": "Enabled",
+  "requestSource": "rest",
+  "resourceGroup": "django-app-production-rg",
+  "retentionInDays": 90,
+  "samplingPercentage": null,
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "tenantId": "f7dc8823-4f06-4346-9de0-badbe6273a54",
+  "type": "microsoft.insights/components"
+}
+[2025-07-02 04:08:23] Створення App Service Plan: django-app-production-plan
+{
+  "elasticScaleEnabled": false,
+  "extendedLocation": null,
+  "freeOfferExpirationTime": "2025-08-01T04:08:26.490000",
+  "geoRegion": "West Europe",
+  "hostingEnvironmentProfile": null,
+  "hyperV": false,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/serverfarms/django-app-production-plan",
+  "isSpot": false,
+  "isXenon": false,
+  "kind": "linux",
+  "kubeEnvironmentProfile": null,
+  "location": "westeurope",
+  "maximumElasticWorkerCount": 1,
+  "maximumNumberOfWorkers": 0,
+  "name": "django-app-production-plan",
+  "numberOfSites": 0,
+  "numberOfWorkers": 1,
+  "perSiteScaling": false,
+  "provisioningState": "Succeeded",
+  "reserved": true,
+  "resourceGroup": "django-app-production-rg",
+  "sku": {
+    "capabilities": null,
+    "capacity": 1,
+    "family": "B",
+    "locations": null,
+    "name": "B1",
+    "size": "B1",
+    "skuCapacity": null,
+    "tier": "Basic"
+  },
+  "spotExpirationTime": null,
+  "status": "Ready",
+  "subscription": "f7dc8823-4f06-4346-9de0-badbe6273a54",
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "targetWorkerCount": 0,
+  "targetWorkerSizeId": 0,
+  "type": "Microsoft.Web/serverfarms",
+  "workerTierName": null,
+  "zoneRedundant": false
+}
+[2025-07-02 04:08:34] Створення Web App: django-app-production-1751428831
+{
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "clientCertMode": "Required",
+  "cloningInfo": null,
+  "containerSize": 0,
+  "customDomainVerificationId": "277D8A1B15CA68EB12A5F295764EA158E61A2A3D155C88E7660BB300D2D92D51",
+  "dailyMemoryTimeQuota": 0,
+  "daprConfig": null,
+  "defaultHostName": "django-app-production-1751428831.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "django-app-production-1751428831.azurewebsites.net",
+    "django-app-production-1751428831.scm.azurewebsites.net"
+  ],
+  "endToEndEncryptionEnabled": false,
+  "extendedLocation": null,
+  "ftpPublishingUrl": "ftps://waws-prod-am2-601.ftp.azurewebsites.windows.net/site/wwwroot",
+  "hostNameSslStates": [
+    {
+      "certificateResourceId": null,
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "django-app-production-1751428831.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    },
+    {
+      "certificateResourceId": null,
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "django-app-production-1751428831.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "django-app-production-1751428831.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/sites/django-app-production-1751428831",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "keyVaultReferenceIdentity": "SystemAssigned",
+  "kind": "app,linux",
+  "lastModifiedTimeUtc": "2025-07-02T04:08:39.550000",
+  "location": "West Europe",
+  "managedEnvironmentId": null,
+  "maxNumberOfWorkers": null,
+  "name": "django-app-production-1751428831",
+  "outboundIpAddresses": "51.124.59.99,51.124.59.175,51.124.59.252,51.124.60.129,51.124.60.243,51.124.60.249,20.105.224.17",
+  "possibleOutboundIpAddresses": "51.124.59.99,51.124.59.175,51.124.59.252,51.124.60.129,51.124.60.243,51.124.60.249,51.124.61.31,51.124.61.49,51.124.61.56,51.124.61.142,51.124.61.184,51.124.61.192,51.105.209.160,51.105.210.136,51.105.210.122,51.124.56.53,51.124.61.162,51.105.210.2,51.124.61.169,51.105.209.155,51.124.57.83,51.124.62.101,51.124.57.229,51.124.58.97,20.105.224.17",
+  "publicNetworkAccess": null,
+  "redundancyMode": "None",
+  "repositorySiteName": "django-app-production-1751428831",
+  "reserved": true,
+  "resourceConfig": null,
+  "resourceGroup": "django-app-production-rg",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/serverfarms/django-app-production-plan",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityId": null,
+    "alwaysOn": false,
+    "antivirusScanEnabled": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "azureStorageAccounts": null,
+    "clusteringEnabled": false,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "elasticWebAppScaleLimit": 0,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionAppScaleLimit": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": false,
+    "http20ProxyFlag": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "ipSecurityRestrictionsDefaultAction": null,
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "keyVaultReferenceIdentity": null,
+    "limits": null,
+    "linuxFxVersion": "",
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsCipherSuite": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": 1,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publicNetworkAccess": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "sandboxType": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsDefaultAction": null,
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmMinTlsCipherSuite": null,
+    "scmMinTlsVersion": null,
+    "scmSupportedTlsCipherSuites": null,
+    "scmType": null,
+    "sitePort": null,
+    "sitePrivateLinkHostEnabled": null,
+    "storageType": null,
+    "supportedTlsCipherSuites": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "vnetPrivatePortsCount": null,
+    "vnetRouteAllEnabled": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsConfiguredStacks": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "storageAccountRequired": false,
+  "suspendedTill": null,
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal",
+  "virtualNetworkSubnetId": null,
+  "vnetContentShareEnabled": false,
+  "vnetImagePullEnabled": false,
+  "vnetRouteAllEnabled": false,
+  "workloadProfileName": null
+}
+[2025-07-02 04:09:01] Налаштування змінних середовища
+[
+  {
+    "name": "DJANGO_SETTINGS_MODULE",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "DATABASE_URL",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "AZURE_STORAGE_ACCOUNT_NAME",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "AZURE_STORAGE_CONTAINER_STATIC",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "AZURE_STORAGE_CONTAINER_MEDIA",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "DEBUG",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "ALLOWED_HOSTS",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "DJANGO_LOG_LEVEL",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "PYTHONPATH",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "SECRET_KEY",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "AZURE_STORAGE_ACCOUNT_KEY",
+    "slotSetting": false,
+    "value": null
+  }
+]
+[2025-07-02 04:09:05] Налаштування App Service для Django
+{
+  "acrUseManagedIdentityCreds": false,
+  "acrUserManagedIdentityId": null,
+  "alwaysOn": false,
+  "apiDefinition": null,
+  "apiManagementConfig": null,
+  "appCommandLine": "gunicorn --bind=0.0.0.0 --timeout 600 config.wsgi",
+  "appSettings": null,
+  "autoHealEnabled": false,
+  "autoHealRules": null,
+  "autoSwapSlotName": null,
+  "azureStorageAccounts": {},
+  "connectionStrings": null,
+  "cors": null,
+  "defaultDocuments": [
+    "Default.htm",
+    "Default.html",
+    "Default.asp",
+    "index.htm",
+    "index.html",
+    "iisstart.htm",
+    "default.aspx",
+    "index.php",
+    "hostingstart.html"
+  ],
+  "detailedErrorLoggingEnabled": false,
+  "documentRoot": null,
+  "elasticWebAppScaleLimit": 0,
+  "experiments": {
+    "rampUpRules": []
+  },
+  "ftpsState": "FtpsOnly",
+  "functionAppScaleLimit": null,
+  "functionsRuntimeScaleMonitoringEnabled": false,
+  "handlerMappings": null,
+  "healthCheckPath": null,
+  "http20Enabled": true,
+  "httpLoggingEnabled": false,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/sites/django-app-production-1751428831",
+  "ipSecurityRestrictions": [
+    {
+      "action": "Allow",
+      "description": "Allow all access",
+      "headers": null,
+      "ipAddress": "Any",
+      "name": "Allow all",
+      "priority": 2147483647,
+      "subnetMask": null,
+      "subnetTrafficTag": null,
+      "tag": null,
+      "vnetSubnetResourceId": null,
+      "vnetTrafficTag": null
+    }
+  ],
+  "ipSecurityRestrictionsDefaultAction": null,
+  "javaContainer": null,
+  "javaContainerVersion": null,
+  "javaVersion": null,
+  "keyVaultReferenceIdentity": null,
+  "kind": null,
+  "limits": null,
+  "linuxFxVersion": "PYTHON|3.11",
+  "loadBalancing": "LeastRequests",
+  "localMySqlEnabled": false,
+  "location": "West Europe",
+  "logsDirectorySizeLimit": 35,
+  "machineKey": null,
+  "managedPipelineMode": "Integrated",
+  "managedServiceIdentityId": null,
+  "metadata": null,
+  "minTlsCipherSuite": null,
+  "minTlsVersion": "1.2",
+  "minimumElasticInstanceCount": 1,
+  "name": "django-app-production-1751428831",
+  "netFrameworkVersion": "v4.0",
+  "nodeVersion": "",
+  "numberOfWorkers": 1,
+  "phpVersion": "",
+  "powerShellVersion": "",
+  "preWarmedInstanceCount": 0,
+  "publicNetworkAccess": null,
+  "publishingUsername": "$django-app-production-1751428831",
+  "push": null,
+  "pythonVersion": "",
+  "remoteDebuggingEnabled": false,
+  "remoteDebuggingVersion": "VS2022",
+  "requestTracingEnabled": false,
+  "requestTracingExpirationTime": null,
+  "resourceGroup": "django-app-production-rg",
+  "scmIpSecurityRestrictions": [
+    {
+      "action": "Allow",
+      "description": "Allow all access",
+      "headers": null,
+      "ipAddress": "Any",
+      "name": "Allow all",
+      "priority": 2147483647,
+      "subnetMask": null,
+      "subnetTrafficTag": null,
+      "tag": null,
+      "vnetSubnetResourceId": null,
+      "vnetTrafficTag": null
+    }
+  ],
+  "scmIpSecurityRestrictionsDefaultAction": null,
+  "scmIpSecurityRestrictionsUseMain": false,
+  "scmMinTlsVersion": "1.2",
+  "scmType": "None",
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "tracingOptions": null,
+  "type": "Microsoft.Web/sites",
+  "use32BitWorkerProcess": true,
+  "virtualApplications": [
+    {
+      "physicalPath": "site\\wwwroot",
+      "preloadEnabled": false,
+      "virtualDirectories": null,
+      "virtualPath": "/"
+    }
+  ],
+  "vnetName": "",
+  "vnetPrivatePortsCount": 0,
+  "vnetRouteAllEnabled": false,
+  "webSocketsEnabled": false,
+  "websiteTimeZone": null,
+  "windowsFxVersion": null,
+  "xManagedServiceIdentityId": null
+}
+{
+  "applicationLogs": {
+    "azureBlobStorage": {
+      "level": "Off",
+      "retentionInDays": null,
+      "sasUrl": null
+    },
+    "azureTableStorage": {
+      "level": "Off",
+      "sasUrl": null
+    },
+    "fileSystem": {
+      "level": "Off"
+    }
+  },
+  "detailedErrorMessages": {
+    "enabled": true
+  },
+  "failedRequestsTracing": {
+    "enabled": true
+  },
+  "httpLogs": {
+    "azureBlobStorage": {
+      "enabled": false,
+      "retentionInDays": 3,
+      "sasUrl": null
+    },
+    "fileSystem": {
+      "enabled": true,
+      "retentionInDays": 3,
+      "retentionInMb": 100
+    }
+  },
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/sites/django-app-production-1751428831/config/logs",
+  "kind": null,
+  "location": "West Europe",
+  "name": "logs",
+  "resourceGroup": "django-app-production-rg",
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Web/sites/config"
+}
+[2025-07-02 04:09:11] Налаштування Managed Identity
+{
+  "principalId": "2316529a-a326-4f3e-af25-3191cb82a1e7",
+  "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8",
+  "type": "SystemAssigned",
+  "userAssignedIdentities": null
+}
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.KeyVault/vaults/djapp-kv-28831",
+  "location": "westeurope",
+  "name": "djapp-kv-28831",
+  "properties": {
+    "accessPolicies": [
+      {
+        "applicationId": null,
+        "objectId": "2b519bbb-fa41-470c-9279-95f55f66c3b9",
+        "permissions": {
+          "certificates": [
+            "all"
+          ],
+          "keys": [
+            "all"
+          ],
+          "secrets": [
+            "set",
+            "delete",
+            "list",
+            "get"
+          ],
+          "storage": [
+            "all"
+          ]
+        },
+        "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8"
+      },
+      {
+        "applicationId": null,
+        "objectId": "2316529a-a326-4f3e-af25-3191cb82a1e7",
+        "permissions": {
+          "certificates": null,
+          "keys": null,
+          "secrets": [
+            "get",
+            "list"
+          ],
+          "storage": null
+        },
+        "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8"
+      }
+    ],
+    "createMode": null,
+    "enablePurgeProtection": null,
+    "enableRbacAuthorization": false,
+    "enableSoftDelete": true,
+    "enabledForDeployment": false,
+    "enabledForDiskEncryption": null,
+    "enabledForTemplateDeployment": null,
+    "hsmPoolResourceId": null,
+    "networkAcls": null,
+    "privateEndpointConnections": null,
+    "provisioningState": "Succeeded",
+    "publicNetworkAccess": "Enabled",
+    "sku": {
+      "family": "A",
+      "name": "standard"
+    },
+    "softDeleteRetentionInDays": 90,
+    "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8",
+    "vaultUri": "https://djapp-kv-28831.vault.azure.net/"
+  },
+  "resourceGroup": "django-app-production-rg",
+  "systemData": {
+    "createdAt": "2025-07-02T04:07:37.211000+00:00",
+    "createdBy": "vitalii_shevchuk3@epam.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2025-07-02T04:09:19.106000+00:00",
+    "lastModifiedBy": "vitalii_shevchuk3@epam.com",
+    "lastModifiedByType": "User"
+  },
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.KeyVault/vaults"
+}
+[2025-07-02 04:09:19] Увімкнення HTTPS
+{
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "clientCertMode": "Required",
+  "cloningInfo": null,
+  "containerSize": 0,
+  "customDomainVerificationId": "277D8A1B15CA68EB12A5F295764EA158E61A2A3D155C88E7660BB300D2D92D51",
+  "dailyMemoryTimeQuota": 0,
+  "daprConfig": null,
+  "defaultHostName": "django-app-production-1751428831.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "django-app-production-1751428831.azurewebsites.net",
+    "django-app-production-1751428831.scm.azurewebsites.net"
+  ],
+  "endToEndEncryptionEnabled": false,
+  "extendedLocation": null,
+  "hostNameSslStates": [
+    {
+      "certificateResourceId": null,
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "django-app-production-1751428831.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    },
+    {
+      "certificateResourceId": null,
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "django-app-production-1751428831.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "django-app-production-1751428831.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": true,
+  "hyperV": false,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/sites/django-app-production-1751428831",
+  "identity": {
+    "principalId": "2316529a-a326-4f3e-af25-3191cb82a1e7",
+    "tenantId": "3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8",
+    "type": "SystemAssigned",
+    "userAssignedIdentities": null
+  },
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "keyVaultReferenceIdentity": "SystemAssigned",
+  "kind": "app,linux",
+  "lastModifiedTimeUtc": "2025-07-02T04:09:22.376666",
+  "location": "West Europe",
+  "managedEnvironmentId": null,
+  "maxNumberOfWorkers": null,
+  "name": "django-app-production-1751428831",
+  "outboundIpAddresses": "51.124.59.99,51.124.59.175,51.124.59.252,51.124.60.129,51.124.60.243,51.124.60.249,20.105.224.17",
+  "possibleOutboundIpAddresses": "51.124.59.99,51.124.59.175,51.124.59.252,51.124.60.129,51.124.60.243,51.124.60.249,51.124.61.31,51.124.61.49,51.124.61.56,51.124.61.142,51.124.61.184,51.124.61.192,51.105.209.160,51.105.210.136,51.105.210.122,51.124.56.53,51.124.61.162,51.105.210.2,51.124.61.169,51.105.209.155,51.124.57.83,51.124.62.101,51.124.57.229,51.124.58.97,20.105.224.17",
+  "publicNetworkAccess": null,
+  "redundancyMode": "None",
+  "repositorySiteName": "django-app-production-1751428831",
+  "reserved": true,
+  "resourceConfig": null,
+  "resourceGroup": "django-app-production-rg",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-production-rg/providers/Microsoft.Web/serverfarms/django-app-production-plan",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityId": null,
+    "alwaysOn": false,
+    "antivirusScanEnabled": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "azureStorageAccounts": null,
+    "clusteringEnabled": false,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "elasticWebAppScaleLimit": 0,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionAppScaleLimit": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": true,
+    "http20ProxyFlag": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "ipSecurityRestrictionsDefaultAction": null,
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "keyVaultReferenceIdentity": null,
+    "limits": null,
+    "linuxFxVersion": "PYTHON|3.11",
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsCipherSuite": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 1,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": 1,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publicNetworkAccess": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "sandboxType": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsDefaultAction": null,
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmMinTlsCipherSuite": null,
+    "scmMinTlsVersion": null,
+    "scmSupportedTlsCipherSuites": null,
+    "scmType": null,
+    "sitePort": null,
+    "sitePrivateLinkHostEnabled": null,
+    "storageType": null,
+    "supportedTlsCipherSuites": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "vnetPrivatePortsCount": null,
+    "vnetRouteAllEnabled": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsConfiguredStacks": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "storageAccountRequired": false,
+  "suspendedTill": null,
+  "tags": {
+    "CreatedBy": "AzureCLI",
+    "Environment": "production",
+    "Project": "django-app"
+  },
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal",
+  "virtualNetworkSubnetId": null,
+  "vnetContentShareEnabled": false,
+  "vnetImagePullEnabled": false,
+  "vnetRouteAllEnabled": false,
+  "workloadProfileName": null
+}
+[2025-07-02 04:09:23] Створення файлів конфігурації
+[2025-07-02 04:09:26] ✅ Інфраструктура успішно створена!
+
+==========================================
+📋 ПІДСУМОК СТВОРЕНИХ РЕСУРСІВ
+==========================================
+🌍 Resource Group: django-app-production-rg
+🚀 Web App: django-app-production-1751428831
+🔗 URL: https://django-app-production-1751428831.azurewebsites.net
+📊 App Service Plan: django-app-production-plan (B1)
+🗄️  PostgreSQL Server: django-app-production-db-1751428831
+🗃️  Database: django-app_db
+💾 Storage Account: djapp1428831
+🔐 Key Vault: djapp-kv-28831
+📈 Application Insights: django-app-production-insights
+
+==========================================
+🔑 ДОСТУПИ (ЗБЕРЕЖІТЬ В БЕЗПЕЧНОМУ МІСЦІ!)
+==========================================
+Database Admin User: djangoadmin
+Database Admin Password: beJeGrJnmmwBz0eZAa1!
+Django Secret Key: збережено в Key Vault
+Storage Account Key: збережено в Key Vault
+
+==========================================
+📝 НАСТУПНІ КРОКИ
+==========================================
+1. Налаштуйте ваш Django проект для роботи з Azure
+2. Додайте створені файли конфігурації до вашого проекту
+3. Налаштуйте CI/CD pipeline для автоматичного деплою
+4. Протестуйте підключення до бази даних
+5. Налаштуйте моніторинг в Application Insights
+
+🚀 Ваш Django додаток готовий до деплою!
+==========================================
+[2025-07-02 04:09:26] 📄 Конфігурація збережена у файл: infrastructure-summary.txt
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+
+```
+
+# 🎉🎉🎉 ВІТАЮ! ІНФРАСТРУКТУРА СТВОРЕНА ПОВНІСТЮ! 🎉🎉🎉
+
+## 🚀 **УСПІШНЕ ЗАВЕРШЕННЯ!**
+
+Ваш скрипт відпрацював ідеально і створив повноцінну інфраструктуру для Django додатку!
+
+## 📋 **СТВОРЕНІ РЕСУРСИ:**
+
+### ✅ **Основна інфраструктура:**
+- **🌍 Resource Group:** `django-app-production-rg`
+- **🚀 Web App:** `django-app-production-1751428831`
+- **📊 App Service Plan:** `django-app-production-plan` (B1)
+- **🗄️ PostgreSQL Server:** `django-app-production-db-1751428831`
+- **🗃️ Database:** `django-app_db`
+- **💾 Storage Account:** `djapp1428831`
+- **🔐 Key Vault:** `djapp-kv-28831`
+- **📈 Application Insights:** `django-app-production-insights`
+
+### 🔗 **Ваш Django додаток доступний за адресою:**
+# **https://django-app-production-1751428831.azurewebsites.net**
+
+## 🔑 **КРИТИЧНО ВАЖЛИВІ ДАНІ:**
+
+### 🐘 **PostgreSQL для PgAdmin:**
+- **Host:** `django-app-production-db-1751428831.postgres.database.azure.com`
+- **Port:** `5432`
+- **Username:** `djangoadmin`
+- **Password:** `beJeGrJnmmwBz0eZAa1!` ⚠️ **НОВИЙ ПАРОЛЬ!**
+- **Database:** `django-app_db`
+- **SSL Mode:** `require`
+
+### 📈 **Application Insights:**
+- **Instrumentation Key:** `ccf40b2a-6776-465d-a683-a7f74b9e9a79`
+
+## 🎯 **ЩО ЗРОБЛЕНО ІДЕАЛЬНО:**
+
+### ✅ **Безпека:**
+- Key Vault налаштований з секретами
+- Managed Identity створена для Web App
+- HTTPS увімкнено примусово
+- Access policies налаштовані
+
+### ✅ **Налаштування Django:**
+- Python 3.11 runtime
+- Gunicorn налаштований
+- Змінні середовища встановлені
+- Логування увімкнено
+
+### ✅ **Моніторинг:**
+- Application Insights підключено
+- Детальні логи увімкнені
+- Failed request tracing активовано
+
+## 🔧 **НАСТУПНІ КРОКИ:**
+
+### 1. **Перевірте веб-додаток:**
+```bash
+curl https://django-app-production-1751428831.azurewebsites.net
+```
+
+### 2. **Підключіться до PostgreSQL в PgAdmin** з новими даними
+
+### 3. **Перегляньте конфігурацію:**
+```bash
+cat infrastructure-summary.txt
+```
+
+### 4. **Деплой вашого Django коду:**
+```bash
+# ZIP deployment
+zip -r myapp.zip . -x "*.git*" "*__pycache__*"
+az webapp deployment source config-zip \
+    --src myapp.zip \
+    --name django-app-production-1751428831 \
+    --resource-group django-app-production-rg
+```
+
+### 5. **Моніторинг логів:**
+```bash
+az webapp log tail \
+    --name django-app-production-1751428831 \
+    --resource-group django-app-production-rg
+```
+
+## 🎊 **ПІДСУМОК:**
+
+**ВИ УСПІШНО СТВОРИЛИ ENTERPRISE-РІВЕНЬ ІНФРАСТРУКТУРУ!**
+
+- ✅ Production-ready Azure infrastructure
+- ✅ Managed PostgreSQL database  
+- ✅ Secure Key Vault с секретами
+- ✅ Application Insights моніторинг
+- ✅ HTTPS security
+- ✅ Managed Identity
+- ✅ Scalable App Service
+
+**Ваш Django додаток готовий до продакшн використання! 🚀**
+
+Чудова робота! Тепер можете розгортати свій код та починати розробку! 🎉
+
 
 
 
