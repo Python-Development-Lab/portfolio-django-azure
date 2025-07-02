@@ -2,6 +2,23 @@
 
 
 
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $  ./cleanup_azure_infrastructure.sh --help
+Використання: ./cleanup_azure_infrastructure.sh [опції]
+
+Опції:
+  --help, -h     Показати цю довідку
+  --dry-run      Показати що буде видалено без фактичного видалення
+  --force        Пропустити підтвердження (НЕБЕЗПЕЧНО!)
+
+Приклади:
+  ./cleanup_azure_infrastructure.sh                 # Інтерактивне видалення
+  ./cleanup_azure_infrastructure.sh --dry-run       # Показати план видалення
+  ./cleanup_azure_infrastructure.sh --force         # Видалити без підтвердження
+```
+
+
 ```bash
 
 @VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./cleanup_azure_infrastructure.sh --dry-run
