@@ -5632,10 +5632,171 @@ az webapp log tail \
 
 Чудова робота! Тепер можете розгортати свій код та починати розробку! 🎉
 
+--------------------------------------------------------------------------------
+
+# 1 **Підключення до PostgreSQL в PgAdmin**
+
+![](https://github.com/Python-Development-Lab/portfolio-django-azure/blob/main/images/management-tools-for-postgresql-1.png)
 
 
+# Діагностика підключення до PostgreSQL в Azure 🔍
 
+## ❌ **Помилка: Connection Timeout Expired**
 
+**Проблема**: Не вдається підключитися до Azure PostgreSQL сервера з PgAdmin
+
+## 🔧 **Можливі причини та рішення**
+
+### 1. **🔥 Firewall Rules (найімовірніше)**
+
+**Проблема**: Ваша IP адреса не додана до firewall rules
+
+**Рішення**:
+```bash
+# Отримайте вашу поточну IP
+MY_IP=$(curl -s ifconfig.me)
+echo "Your IP: $MY_IP"
+
+# Додайте правило firewall
+az postgres flexible-server firewall-rule create \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831 \
+    --rule-name "MyLocalIP" \
+    --start-ip-address $MY_IP \
+    --end-ip-address $MY_IP
+```
+
+### 2. **🌐 Перевірка доступності сервера**
+
+```bash
+# Перевірте статус сервера
+az postgres flexible-server show \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831 \
+    --query "state"
+
+# Перевірте firewall rules
+az postgres flexible-server firewall-rule list \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831 \
+    --output table
+```
+
+### 3. **⚙️ Налаштування PgAdmin**
+
+**Оновіть конфігурацію в PgAdmin**:
+
+#### **Вкладка Connection:**
+- **Host name/address**: `django-app-production-db-1751428831.postgres.database.azure.com`
+- **Port**: `5432`
+- **Maintenance database**: `django-app_db` (або `postgres`)
+- **Username**: `djangoadmin`
+- **Password**: `beJeGrJnmmwBz0eZAa1!`
+
+#### **Вкладка Parameters:**
+Додайте параметр:
+- **Name**: `sslmode`
+- **Value**: `require`
+
+#### **Вкладка Advanced:**
+- **Connection timeout**: збільшіть до `30` секунд
+
+### 4. **🔒 SSL Configuration**
+
+Azure PostgreSQL вимагає SSL. В PgAdmin:
+
+**SSL Tab**:
+- **SSL mode**: `Require`
+- **Client certificate**: `Не заповнювати`
+- **Client certificate key**: `Не заповнювати`
+- **Root certificate**: `Не заповнювати`
+
+### 5. **🧪 Тестування підключення через командний рядок**
+
+```bash
+# Тест через psql (якщо встановлено)
+psql "host=django-app-production-db-1751428831.postgres.database.azure.com port=5432 dbname=django-app_db user=djangoadmin password=beJeGrJnmmwBz0eZAa1! sslmode=require"
+
+# Або через Azure CLI
+az postgres flexible-server connect \
+    --name django-app-production-db-1751428831 \
+    --resource-group django-app-production-rg \
+    --username djangoadmin \
+    --database-name django-app_db
+```
+
+### 6. **🌍 Перевірка мережевого з'єднання**
+
+```bash
+# Тест доступності хоста
+ping django-app-production-db-1751428831.postgres.database.azure.com
+
+# Тест доступності порту
+telnet django-app-production-db-1751428831.postgres.database.azure.com 5432
+
+# Або через nc (netcat)
+nc -zv django-app-production-db-1751428831.postgres.database.azure.com 5432
+```
+
+## 🚀 **Покрокове рішення**
+
+### Крок 1: Додайте вашу IP до firewall
+```bash
+# Отримайте IP та додайте правило
+MY_IP=$(curl -s ifconfig.me)
+az postgres flexible-server firewall-rule create \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831 \
+    --rule-name "PgAdmin-$(date +%Y%m%d)" \
+    --start-ip-address $MY_IP \
+    --end-ip-address $MY_IP
+```
+
+### Крок 2: Перевірте статус сервера
+```bash
+az postgres flexible-server show \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831
+```
+
+### Крок 3: Оновіть налаштування PgAdmin
+- Додайте `sslmode=require` в Parameters
+- Збільшіть connection timeout до 30 секунд
+- Переконайтеся, що SSL mode = "Require"
+
+### Крок 4: Тестування
+Спробуйте підключитися знову після додавання firewall rule
+
+## 🔄 **Альтернативні варіанти**
+
+### Якщо проблема залишається:
+
+1. **Тимчасово дозволити всі IP** (НЕ для продакшену):
+```bash
+az postgres flexible-server firewall-rule create \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831 \
+    --rule-name "TemporaryAllAccess" \
+    --start-ip-address 0.0.0.0 \
+    --end-ip-address 255.255.255.255
+```
+
+2. **Перезапуск сервера**:
+```bash
+az postgres flexible-server restart \
+    --resource-group django-app-production-rg \
+    --name django-app-production-db-1751428831
+```
+
+## 💡 **Найімовірніше рішення**
+
+В 90% випадків проблема в **firewall rules**. Виконайте:
+
+```bash
+curl -s ifconfig.me && echo " <- Ваша IP адреса"
+```
+
+Потім додайте цю IP до firewall rules командою вище, і підключення має запрацювати! 🚀
 
 
 
