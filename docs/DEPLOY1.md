@@ -5550,6 +5550,8 @@ Storage Account Key: збережено в Key Vault
 ### 🔗 **Ваш Django додаток доступний за адресою:**
 # **https://django-app-production-1751428831.azurewebsites.net**
 
+
+
 ## 🔑 **КРИТИЧНО ВАЖЛИВІ ДАНІ:**
 
 ### 🐘 **PostgreSQL для PgAdmin:**
