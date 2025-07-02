@@ -5548,8 +5548,9 @@ Storage Account Key: збережено в Key Vault
 - **📈 Application Insights:** `django-app-production-insights`
 
 ### 🔗 **Ваш Django додаток доступний за адресою:**
-# **https://django-app-production-1751428831.azurewebsites.net**
 
+ **https://django-app-production-1751428831.azurewebsites.net**
+![](https://github.com/Python-Development-Lab/portfolio-django-azure/blob/main/images/django-app-production-1751428831.azurewebsites.net.png)
 
 
 ## 🔑 **КРИТИЧНО ВАЖЛИВІ ДАНІ:**
