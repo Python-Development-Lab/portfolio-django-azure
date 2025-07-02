@@ -1,4 +1,9 @@
 
+
+
+
+```bash
+
 @VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ ./cleanup_azure_infrastructure.sh --dry-run
 🔍 DRY RUN MODE - показуємо що буде видалено:
 [2025-07-02 16:22:43] Перевірка поточних ресурсів...
@@ -49,3 +54,5 @@ django-app-production-1751471130                    django-app-production-rg  we
 
 Для фактичного видалення запустіть: ./cleanup_azure_infrastructure.sh
 @VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (main) $ 
+```
+
