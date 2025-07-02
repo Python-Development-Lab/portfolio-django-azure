@@ -66,7 +66,622 @@
 
 Чи потрібно додати якісь специфічні розділи або деталізувати певні аспекти?
 
+-----------------------------------------------------------------------------
 
+# Azure Infrastructure для Django додатку - Повна документація
+
+## 🏗️ Архітектурна схема
+
+```mermaid
+graph TB
+    User[👥 Користувачі] --> CDN[🌐 Azure CDN]
+    CDN --> AppGW[🔒 Application Gateway]
+    AppGW --> WebApp[🚀 Azure App Service]
+    
+    WebApp --> KeyVault[🔐 Azure Key Vault]
+    WebApp --> DB[(🗄️ PostgreSQL Flexible Server)]
+    WebApp --> Storage[💾 Azure Storage Account]
+    WebApp --> Insights[📊 Application Insights]
+    
+    subgraph "Resource Group"
+        WebApp
+        KeyVault
+        DB
+        Storage
+        Insights
+        AppPlan[📋 App Service Plan]
+    end
+    
+    subgraph "Security Layer"
+        KeyVault
+        Identity[🆔 Managed Identity]
+        Firewall[🔥 Database Firewall]
+    end
+    
+    subgraph "Monitoring & Logging"
+        Insights
+        Logs[📋 Application Logs]
+        Metrics[📈 Performance Metrics]
+    end
+```
+
+## 🎯 Цілі та вимоги
+
+### Основні цілі:
+- **Безпека**: Захист даних та конфіденційної інформації
+- **Масштабованість**: Можливість збільшення навантаження
+- **Надійність**: Високий рівень доступності (SLA 99.9%+)
+- **Моніторинг**: Повний контроль над станом системи
+- **Автоматизація**: Infrastructure as Code підхід
+
+### Технічні вимоги:
+- Python 3.11+ для Django
+- PostgreSQL 14+ для бази даних
+- HTTPS-only з'єднання
+- Централізоване управління секретами
+- Автоматичне масштабування
+- Backup та disaster recovery
+
+## 🧩 Компоненти інфраструктури
+
+### 1. Resource Group (`django-app-production-rg`)
+**Призначення**: Логічне групування всіх ресурсів
+
+```bash
+az group create \
+    --name "django-app-production-rg" \
+    --location "West Europe" \
+    --tags Environment=production Project=django-app
+```
+
+**Переваги**:
+- Централізоване управління
+- Групове видалення ресурсів
+- Контроль доступу на рівні групи
+- Консолідована звітність по витратам
+
+### 2. Azure App Service (`django-app-production-{timestamp}`)
+
+```mermaid
+graph LR
+    Client[HTTP Request] --> LB[Load Balancer]
+    LB --> App1[App Instance 1]
+    LB --> App2[App Instance 2]
+    LB --> App3[App Instance N]
+    
+    App1 --> Runtime[Python 3.11 Runtime]
+    App2 --> Runtime
+    App3 --> Runtime
+```
+
+**Конфігурація**:
+- **SKU**: B1 (Basic) - можна масштабувати до Premium
+- **Runtime**: Python 3.11
+- **OS**: Linux
+- **HTTPS**: Примусово увімкнено
+- **Startup Command**: `gunicorn --bind=0.0.0.0 --timeout 600 config.wsgi`
+
+**Змінні середовища**:
+```bash
+DJANGO_SETTINGS_MODULE="config.settings.production"
+SECRET_KEY="@Microsoft.KeyVault(...)"
+DATABASE_URL="postgresql://..."
+AZURE_STORAGE_ACCOUNT_NAME="djapp..."
+DEBUG="False"
+ALLOWED_HOSTS="*.azurewebsites.net"
+```
+
+### 3. PostgreSQL Flexible Server
+
+```mermaid
+graph TB
+    App[Django App] --> Conn[Connection Pool]
+    Conn --> Primary[(Primary DB)]
+    Primary --> Backup[(Automated Backup)]
+    Primary --> Replica[(Read Replica)]
+    
+    subgraph "Security"
+        Firewall[Database Firewall]
+        SSL[SSL/TLS Encryption]
+        VNet[Virtual Network]
+    end
+```
+
+**Специфікація**:
+- **Версія**: PostgreSQL 14
+- **SKU**: Standard_D2ds_v4 (2 vCores, 8GB RAM)
+- **Storage**: 32GB (auto-scaling enabled)
+- **Backup**: 7 днів retention
+- **SSL**: Обов'язкове шифрування
+
+**Firewall Rules**:
+```bash
+# Azure Services access
+Start IP: 0.0.0.0
+End IP: 0.0.0.0
+
+# Specific IP ranges (production)
+Start IP: YOUR_OFFICE_IP
+End IP: YOUR_OFFICE_IP
+```
+
+### 4. Azure Key Vault (`djapp-kv-{shortcode}`)
+
+```mermaid
+graph LR
+    App[Django App] --> MSI[Managed Identity]
+    MSI --> KV[Key Vault]
+    
+    subgraph "Stored Secrets"
+        Secret1[Django Secret Key]
+        Secret2[DB Password]
+        Secret3[Storage Key]
+        Secret4[API Keys]
+    end
+    
+    KV --> Secret1
+    KV --> Secret2
+    KV --> Secret3
+    KV --> Secret4
+```
+
+**Безпека**:
+- **Access Policy**: Managed Identity з правами get/list
+- **Soft Delete**: Увімкнено (90 днів)
+- **Network Access**: Public з обмеженнями
+- **Audit Logging**: Всі операції логуються
+
+**Секрети**:
+```bash
+django-secret-key      # 50-символьний ключ
+database-password      # Згенерований пароль БД
+storage-account-key    # Ключ доступу до Storage
+app-insights-key       # Instrumentation key
+```
+
+### 5. Azure Storage Account
+
+```mermaid
+graph TB
+    Django[Django App] --> Static[Static Files Container]
+    Django --> Media[Media Files Container]
+    
+    subgraph "Storage Account"
+        Static --> Blob1[CSS/JS/Images]
+        Media --> Blob2[User Uploads]
+    end
+    
+    CDN[Azure CDN] --> Static
+    CDN --> Media
+```
+
+**Конфігурація**:
+- **Type**: StorageV2 (General Purpose v2)
+- **Performance**: Standard
+- **Replication**: LRS (Locally Redundant)
+- **Access Tier**: Hot
+- **Public Access**: Blob level
+
+**Containers**:
+```bash
+static/     # Django static files (CSS, JS, images)
+media/      # User uploaded content
+backups/    # Database backups (optional)
+```
+
+### 6. Application Insights
+
+```mermaid
+graph LR
+    App[Django App] --> SDK[AI SDK]
+    SDK --> AI[Application Insights]
+    
+    subgraph "Telemetry"
+        Requests[HTTP Requests]
+        Exceptions[Exceptions]
+        Dependencies[Dependencies]
+        Performance[Performance]
+    end
+    
+    AI --> Requests
+    AI --> Exceptions
+    AI --> Dependencies
+    AI --> Performance
+    
+    AI --> Alerts[Smart Alerts]
+    AI --> Dashboard[Monitoring Dashboard]
+```
+
+**Моніторинг**:
+- **Request Tracking**: Автоматичний моніторинг HTTP запитів
+- **Exception Tracking**: Автоматичне виявлення помилок
+- **Performance Counters**: CPU, Memory, Disk I/O
+- **Custom Metrics**: Бізнес-метрики Django
+- **Dependency Tracking**: Database, External APIs
+
+## 🔄 Процес розгортання
+
+### Схема CI/CD Pipeline
+
+```mermaid
+graph TB
+    Dev[👨‍💻 Developer] --> Git[📝 Git Push]
+    Git --> GHA[🔄 GitHub Actions]
+    
+    GHA --> Test[🧪 Run Tests]
+    Test --> Build[🏗️ Build App]
+    Build --> Deploy[🚀 Deploy to Azure]
+    
+    Deploy --> WebApp[App Service]
+    Deploy --> DB[Run Migrations]
+    Deploy --> Static[Upload Static Files]
+    
+    WebApp --> Health[Health Check]
+    Health --> Monitor[Start Monitoring]
+```
+
+### Крок за кроком:
+
+1. **Підготовка коду**:
+   ```bash
+   # requirements.txt
+   Django>=4.2,<5.0
+   psycopg2-binary>=2.9.0
+   gunicorn>=20.1.0
+   django-storages[azure]>=1.13.0
+   ```
+
+2. **Конфігурація Django**:
+   ```python
+   # settings/production.py
+   import os
+   from .base import *
+   
+   DEBUG = False
+   ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
+   
+   # Database
+   DATABASES = {
+       'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+   }
+   
+   # Azure Storage
+   DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+   STATICFILES_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+   ```
+
+3. **Deployment**:
+   ```bash
+   # ZIP deployment
+   az webapp deployment source config-zip \
+       --src app.zip \
+       --name $WEB_APP_NAME \
+       --resource-group $RESOURCE_GROUP
+   ```
+
+## 🔒 Безпека та Compliance
+
+### Security Layers
+
+```mermaid
+graph TB
+    Internet[🌐 Internet] --> WAF[🛡️ Web Application Firewall]
+    WAF --> TLS[🔐 TLS 1.2+ Encryption]
+    TLS --> App[🚀 App Service]
+    
+    App --> MSI[🆔 Managed Identity]
+    MSI --> KV[🔐 Key Vault]
+    
+    App --> DB[(🗄️ Database)]
+    DB --> Encryption[🔒 Encryption at Rest]
+    
+    subgraph "Network Security"
+        VNet[Virtual Network]
+        NSG[Network Security Groups]
+        Firewall[Database Firewall]
+    end
+    
+    subgraph "Identity & Access"
+        RBAC[Role-Based Access Control]
+        AAD[Azure Active Directory]
+        MSI
+    end
+```
+
+### Принципи безпеки:
+
+1. **Zero Trust Architecture**:
+   - Немає довіри за замовчуванням
+   - Перевірка кожного запиту
+   - Мінімальні права доступу
+
+2. **Encryption Everywhere**:
+   - HTTPS для всього трафіку
+   - TLS 1.2+ для база даних
+   - Encryption at rest для Storage
+
+3. **Identity Management**:
+   - Managed Identity для автентифікації
+   - RBAC для контролю доступу
+   - Azure AD інтеграція
+
+4. **Network Security**:
+   - Database firewall rules
+   - Private endpoints (за потреби)
+   - DDoS protection
+
+## 📊 Моніторинг та алерти
+
+### Monitoring Stack
+
+```mermaid
+graph TB
+    App[Django Application] --> Metrics[📈 Custom Metrics]
+    App --> Logs[📋 Application Logs]
+    App --> Traces[🔍 Distributed Tracing]
+    
+    Metrics --> AI[Application Insights]
+    Logs --> AI
+    Traces --> AI
+    
+    AI --> Alerts[🚨 Smart Alerts]
+    AI --> Dashboard[📊 Dashboard]
+    AI --> Reports[📑 Reports]
+    
+    subgraph "Alert Types"
+        Performance[Performance Degradation]
+        Errors[Error Rate Increase]
+        Availability[Availability Issues]
+        Security[Security Events]
+    end
+    
+    Alerts --> Performance
+    Alerts --> Errors
+    Alerts --> Availability
+    Alerts --> Security
+```
+
+### Ключові метрики:
+
+1. **Performance Metrics**:
+   - Response time (< 500ms target)
+   - Throughput (requests/second)
+   - Error rate (< 1% target)
+   - Database query performance
+
+2. **Infrastructure Metrics**:
+   - CPU utilization (< 80%)
+   - Memory usage (< 85%)
+   - Disk I/O
+   - Network latency
+
+3. **Business Metrics**:
+   - User registrations
+   - Page views
+   - Feature usage
+   - Conversion rates
+
+## 💰 Оптимізація витрат
+
+### Cost Breakdown
+
+```mermaid
+pie title Щомісячні витрати (USD)
+    "App Service B1" : 55
+    "PostgreSQL D2ds_v4" : 120
+    "Storage Account" : 10
+    "Application Insights" : 20
+    "Key Vault" : 5
+    "Bandwidth" : 15
+```
+
+### Стратегії оптимізації:
+
+1. **Right-sizing Resources**:
+   - Моніторинг використання ресурсів
+   - Автоматичне масштабування
+   - Reserved Instances для довгострокових проектів
+
+2. **Storage Optimization**:
+   - Lifecycle policies для старих файлів
+   - Cool/Archive tiers для резервних копій
+   - CDN для статичних файлів
+
+3. **Database Optimization**:
+   - Connection pooling
+   - Query optimization
+   - Read replicas для read-heavy workloads
+
+## 🔧 Налаштування та конфігурація
+
+### Структура проекту Django
+
+```
+django-project/
+├── config/
+│   ├── settings/
+│   │   ├── base.py
+│   │   ├── production.py
+│   │   └── development.py
+│   ├── wsgi.py
+│   └── urls.py
+├── apps/
+│   └── your_app/
+├── static/
+├── media/
+├── requirements/
+│   ├── base.txt
+│   └── production.txt
+├── startup.sh
+├── web.config
+└── infrastructure-summary.txt
+```
+
+### Ключові конфігурації:
+
+1. **Django Settings**:
+   ```python
+   # config/settings/production.py
+   from .base import *
+   import dj_database_url
+   
+   DEBUG = False
+   ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
+   
+   # Database
+   DATABASES = {
+       'default': dj_database_url.parse(
+           os.environ.get('DATABASE_URL'),
+           conn_max_age=600
+       )
+   }
+   
+   # Azure Storage
+   DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+   AZURE_ACCOUNT_NAME = os.environ.get('AZURE_STORAGE_ACCOUNT_NAME')
+   AZURE_ACCOUNT_KEY = os.environ.get('AZURE_STORAGE_ACCOUNT_KEY')
+   ```
+
+2. **Startup Configuration**:
+   ```bash
+   #!/bin/bash
+   echo "Starting Django application..."
+   
+   # Install dependencies
+   pip install -r requirements.txt
+   
+   # Collect static files
+   python manage.py collectstatic --noinput
+   
+   # Run migrations
+   python manage.py migrate --noinput
+   
+   # Start Gunicorn
+   exec gunicorn --bind=0.0.0.0:8000 --timeout 600 --workers 3 config.wsgi
+   ```
+
+## 🚀 Розгортання та управління
+
+### Команди управління:
+
+1. **Повне розгортання**:
+   ```bash
+   ./script_azure.sh
+   ```
+
+2. **Оновлення додатку**:
+   ```bash
+   az webapp deployment source config-zip \
+       --src app.zip \
+       --name django-app-production-{timestamp} \
+       --resource-group django-app-production-rg
+   ```
+
+3. **Моніторинг логів**:
+   ```bash
+   az webapp log tail \
+       --name django-app-production-{timestamp} \
+       --resource-group django-app-production-rg
+   ```
+
+4. **Масштабування**:
+   ```bash
+   az appservice plan update \
+       --name django-app-production-plan \
+       --resource-group django-app-production-rg \
+       --sku P1V2
+   ```
+
+## 🔄 Backup та Disaster Recovery
+
+### Backup Strategy
+
+```mermaid
+graph TB
+    App[Production App] --> DB[(Primary DB)]
+    DB --> AutoBackup[Automated Backup]
+    DB --> Replica[(Read Replica)]
+    
+    Storage[Storage Account] --> GeoReplication[Geo-Replication]
+    
+    AutoBackup --> Retention[7-day Retention]
+    AutoBackup --> PITR[Point-in-Time Recovery]
+    
+    subgraph "Disaster Recovery"
+        SecondaryRegion[Secondary Region]
+        DR_App[DR App Service]
+        DR_DB[(DR Database)]
+    end
+    
+    Replica --> DR_DB
+    GeoReplication --> SecondaryRegion
+```
+
+### Recovery Procedures:
+
+1. **Database Recovery**:
+   ```bash
+   # Point-in-time restore
+   az postgres flexible-server restore \
+       --source-server django-app-production-db-{timestamp} \
+       --target-server django-app-restored-{date} \
+       --restore-time "2023-10-01T12:00:00Z"
+   ```
+
+2. **Application Recovery**:
+   ```bash
+   # Deploy from backup
+   az webapp deployment source config-zip \
+       --src backup-{date}.zip \
+       --name django-app-dr-{timestamp}
+   ```
+
+## 📋 Чеклист після розгортання
+
+### Immediate Tasks:
+- [ ] Перевірити доступність додатку
+- [ ] Протестувати підключення до БД
+- [ ] Верифікувати HTTPS
+- [ ] Перевірити логи на помилки
+- [ ] Підтвердити роботу Application Insights
+
+### Security Review:
+- [ ] Перевірити firewall rules
+- [ ] Валідувати SSL/TLS конфігурацію
+- [ ] Перевірити права доступу Key Vault
+- [ ] Протестувати Managed Identity
+
+### Performance Testing:
+- [ ] Load testing
+- [ ] Database performance
+- [ ] Static files delivery
+- [ ] Response time monitoring
+
+### Monitoring Setup:
+- [ ] Налаштувати алерти
+- [ ] Створити dashboard
+- [ ] Конфігурувати notifications
+- [ ] Перевірити метрики
+
+## 🔗 Корисні посилання
+
+- [Azure App Service Documentation](https://docs.microsoft.com/en-us/azure/app-service/)
+- [PostgreSQL on Azure](https://docs.microsoft.com/en-us/azure/postgresql/)
+- [Azure Key Vault Best Practices](https://docs.microsoft.com/en-us/azure/key-vault/general/best-practices)
+- [Django Deployment Guide](https://docs.djangoproject.com/en/4.2/howto/deployment/)
+- [Application Insights for Python](https://docs.microsoft.com/en-us/azure/azure-monitor/app/opencensus-python)
+
+---
+
+## 📞 Підтримка
+
+Для питань та підтримки:
+- **Technical Lead**: [your-email@company.com]
+- **DevOps Team**: [devops@company.com]
+- **Emergency**: [emergency-contact]
+
+
+------------------------------------------------------
 
 ```bash
 # =============================================================================
