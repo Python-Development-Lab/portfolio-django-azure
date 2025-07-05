@@ -591,5 +591,6 @@ Version 2.0.0 (stable release) will include:
 ### REFERENCES:
 
 - Semantic Versioning 2.0.0, https://semver.org/
+- About release management, https://docs.github.com/ru/repositories/releasing-projects-on-github/managing-releases-in-a-repository
 - 
 
