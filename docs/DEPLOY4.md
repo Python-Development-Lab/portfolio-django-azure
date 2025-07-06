@@ -1,4 +1,7 @@
 
+```bash
+az login --tenant 3a7a2d8e-5083-4ef2-809c-3a88f18e0ef8
+```
 
 # Бюджетна версія Azure Infrastructure Script (~$20-25/місяць)
 
