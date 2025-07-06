@@ -892,3 +892,841 @@ EOF
 log "📄 Бюджетна конфігурація збережена у файл: budget-infrastructure-summary.txt"
 
 ```
+
+
+
+```bash
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (feature/infrastructure-update) $ ./budget-azure-deploy.sh
+
+============================================
+💰 БЮДЖЕТНА AZURE INFRASTRUCTURE
+============================================
+Орієнтовна вартість: 0-25/місяць
+
+📊 Конфігурація:
+  🚀 App Service: F1 (безкоштовно)
+  🗄️  Database: Standard_B1ms (~2-15)
+  💾 Storage: Standard_LRS (~-5)
+  🔐 Key Vault: ~
+  📈 App Insights: безкоштовно (до 5GB)
+
+[2025-07-06 16:07:49] Початок створення БЮДЖЕТНОЇ інфраструктури для Django додатку...
+[2025-07-06 16:07:49] Проект: django-app
+[2025-07-06 16:07:49] Середовище: budget
+[2025-07-06 16:07:49] Регіон: West Europe
+[2025-07-06 16:07:49] Перевірка залежностей...
+[2025-07-06 16:07:49] ✅ Всі залежності встановлені
+[INFO] 🔄 КРОК 1/11: Створення Resource Group
+[2025-07-06 16:07:49] Створення Resource Group: django-app-budget-rg
+{
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-budget-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "django-app-budget-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CostProfile": "Budget",
+    "CreatedBy": "AzureCLI",
+    "Environment": "budget",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+[INFO] 🔄 КРОК 2/11: Створення Storage Account (бюджетна конфігурація)
+[2025-07-06 16:07:51] Створення Storage Account: djapp1818069
+{
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2025-07-06T16:07:54.835755+00:00",
+  "customDomain": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-06T16:07:54.992005+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-06T16:07:54.992005+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/f7dc8823-4f06-4346-9de0-badbe6273a54/resourceGroups/django-app-budget-rg/providers/Microsoft.Storage/storageAccounts/djapp1818069",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2025-07-06T16:07:54.976379+00:00",
+    "key2": "2025-07-06T16:07:54.976379+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "westeurope",
+  "minimumTlsVersion": "TLS1_0",
+  "name": "djapp1818069",
+  "networkRuleSet": {
+    "bypass": "AzureServices",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "primaryEndpoints": {
+    "blob": "https://djapp1818069.blob.core.windows.net/",
+    "dfs": "https://djapp1818069.dfs.core.windows.net/",
+    "file": "https://djapp1818069.file.core.windows.net/",
+    "internetEndpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://djapp1818069.queue.core.windows.net/",
+    "table": "https://djapp1818069.table.core.windows.net/",
+    "web": "https://djapp1818069.z6.web.core.windows.net/"
+  },
+  "primaryLocation": "westeurope",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "django-app-budget-rg",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": null,
+  "secondaryLocation": null,
+  "sku": {
+    "name": "Standard_LRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": null,
+  "storageAccountSkuConversionStatus": null,
+  "tags": {
+    "CostProfile": "Budget",
+    "CreatedBy": "AzureCLI",
+    "Environment": "budget",
+    "Project": "django-app"
+  },
+  "type": "Microsoft.Storage/storageAccounts"
+}
+[2025-07-06 16:08:13] Створення контейнерів для статичних файлів
+{
+  "created": false
+}
+{
+  "created": false
+}
+[INFO] 🔄 КРОК 3/11: Створення PostgreSQL Database (бюджетна конфігурація)
+[2025-07-06 16:08:16] Створення PostgreSQL сервера: django-app-budget-db-1751818069
+[WARNING] Використовується найдешевший SKU: Standard_B1ms
+The default value of '--version' will be changed to '17' from '16' in next breaking change release(2.73.0) scheduled for May 2025.
+The default value of '--create-default-database' will be changed to 'Disabled' from 'Enabled' in next breaking change release(2.73.0) scheduled for May 2025.
+Update default value of "--sku-name" in next breaking change release(2.73.0) scheduled for May 2025. The default value will be changed from "Standard_D2s_v3" to a supported sku based on regional capabilities.
+Checking the existence of the resource group 'django-app-budget-rg'...
+Resource group 'django-app-budget-rg' exists ? : True 
+Incorrect value for --sku-name. The SKU name does not exist in GeneralPurpose tier. When --tier is not specified, it defaults to GeneralPurpose. Provide a valid SKU name for this tier, or specify --tier with the right tier for the SKU name chosen. Allowed values : ['standard_d96ds_v5', 'standard_d64ds_v5', 'standard_d48ds_v5', 'standard_d32ds_v5', 'standard_d16ds_v5', 'standard_d8ds_v5', 'standard_d4ds_v5', 'standard_d2ds_v5', 'standard_d64ds_v4', 'standard_d48ds_v4', 'standard_d32ds_v4', 'standard_d16ds_v4', 'standard_d8ds_v4', 'standard_d4ds_v4', 'standard_d2ds_v4', 'standard_d64s_v3', 'standard_d48s_v3', 'standard_d32s_v3', 'standard_d16s_v3', 'standard_d8s_v3', 'standard_d4s_v3', 'standard_d2s_v3']
+@VitaliiShevchuk2023 ➜ /workspaces/portfolio-django-azure (feature/infrastructure-update) $
+
+```
+
+## 🐛 **Помилка в PostgreSQL SKU - Виправлення**
+
+Бачу проблему! SKU `Standard_B1ms` не існує в GeneralPurpose tier PostgreSQL Flexible Server. Потрібно виправити скрипт.
+
+---
+
+## 🔍 **Аналіз помилки:**
+
+### **❌ Проблема:**
+```bash
+Incorrect value for --sku-name. The SKU name does not exist in GeneralPurpose tier.
+SKU: Standard_B1ms
+Tier: GeneralPurpose (default)
+```
+
+### **✅ Рішення:**
+Потрібно або:
+1. **Використати Burstable tier** з правильним SKU
+2. **Або використати GeneralPurpose tier** з найдешевшим SKU
+
+---
+
+## 🛠️ **Виправлення скрипту:**
+
+### **Варіант 1: Burstable tier (найдешевший ~$7-12/місяць)**
+```bash
+# Замінити в скрипті:
+DB_SKU="Standard_B1ms"            # ❌ Неправильно
+DB_TIER="Burstable"               # ✅ Додати
+DB_SKU="Standard_B1ms"            # ✅ Правильно з tier
+
+# В команді az postgres flexible-server create додати:
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "$DB_SKU" \
+    --tier "$DB_TIER" \                    # ✅ Додати цей рядок
+    --storage-size "$DB_STORAGE_SIZE" \
+    --version 14 \
+    --public-access 0.0.0.0 \
+    --tags $TAGS
+```
+
+### **Варіант 2: GeneralPurpose tier (дорожчий ~$85/місяць)**
+```bash
+# Замінити в скрипті:
+DB_SKU="Standard_D2s_v3"          # ✅ Найдешевший у GeneralPurpose
+DB_TIER="GeneralPurpose"          # ✅ Явно вказати tier
+```
+
+---
+
+## 💰 **Рекомендований fix для бюджетної версії:**
+
+### **🔧 Оновлений budget-azure-deploy.sh:**---
+
+## 🎯 **Альтернативні варіанти PostgreSQL для бюджету:**
+
+### **💰 Варіант 1: Burstable B1ms (Рекомендований)**
+```bash
+DB_SKU="Standard_B1ms"
+DB_TIER="Burstable"
+# Вартість: ~$7-12/місяць
+# Ресурси: 1 vCore, 2GB RAM, 32GB storage
+# Підходить для: розробка, тестування, малі проекти
+```
+
+### **💵 Варіант 2: Burstable B2s (Кращий performance)**
+```bash
+DB_SKU="Standard_B2s"
+DB_TIER="Burstable"
+# Вартість: ~$14-20/місяць
+# Ресурси: 2 vCore, 4GB RAM, 32GB storage
+# Підходить для: малі production додатки
+```
+
+### **💸 Варіант 3: GeneralPurpose D2s_v3 (Найдорожчий)**
+```bash
+DB_SKU="Standard_D2s_v3"
+DB_TIER="GeneralPurpose"
+# Вартість: ~$85-95/місяць
+# Ресурси: 2 vCore, 8GB RAM, high IOPS
+# Підходить для: production з високим навантаженням
+```
+
+---
+
+## 🔧 **Швидке виправлення:**
+
+### **📝 Редагування через GitHub:**
+
+1. **Відкрити `budget-azure-deploy.sh`**
+2. **Знайти рядки:**
+   ```bash
+   DB_SKU="Standard_B1ms"            # 💵 $12-15/місяць (1 vCore, 2GB RAM)
+   ```
+
+3. **Замінити на:**
+   ```bash
+   DB_SKU="Standard_B1ms"            # 💵 $7-12/місяць (1 vCore, 2GB RAM)
+   DB_TIER="Burstable"               # ✅ ДОДАНО: Burstable tier
+   ```
+
+4. **Знайти команду PostgreSQL:**
+   ```bash
+   az postgres flexible-server create \
+       --sku-name "$DB_SKU" \
+   ```
+
+5. **Додати рядок після `--sku-name`:**
+   ```bash
+   az postgres flexible-server create \
+       --sku-name "$DB_SKU" \
+       --tier "$DB_TIER" \           # ✅ ДОДАТИ ЦЕЙ РЯДОК
+   ```
+
+6. **Оновити вивід вартості:**
+   ```bash
+   echo "  🗄️  Database: Standard_B1ms Burstable (~$7-12)"
+   echo ""
+   echo "💰 ЗАГАЛЬНА ВАРТІСТЬ: ~$10-18/місяць"
+   ```
+
+---
+
+## ✅ **Перевірка доступних SKU:**
+
+### **🔍 Команда для перевірки:**
+```bash
+# Показати всі доступні SKU для PostgreSQL
+az postgres flexible-server list-skus --location "West Europe" --output table
+
+# Показати тільки Burstable tier
+az postgres flexible-server list-skus --location "West Europe" --query "[?tier=='Burstable']" --output table
+```
+
+### **📊 Очікувані результати для Burstable:**
+```
+Name              Tier       vCores    Memory    Storage
+Standard_B1ms     Burstable  1         2 GB      32-16384 GB
+Standard_B2s      Burstable  2         4 GB      32-16384 GB  
+Standard_B4ms     Burstable  4         8 GB      32-16384 GB
+```
+
+---
+
+## 🚀 **Після виправлення:**
+
+### **💰 Оновлена вартість:**
+```
+📊 Бюджетна конфігурація (виправлена):
+🚀 App Service F1: $0/місяць
+🗄️  PostgreSQL B1ms Burstable: $7-12/місяць  
+💾 Storage LRS: $2-5/місяць
+🔐 Key Vault: $1/місяць
+📈 App Insights: $0/місяць
+
+💰 ЗАГАЛЬНА ВАРТІСТЬ: $10-18/місяць
+```
+
+### **🔄 Повторний запуск:**
+```bash
+# Після виправлення скрипту:
+chmod +x budget-azure-deploy.sh
+./budget-azure-deploy.sh
+```
+
+---
+
+## 📝 **Commit message для виправлення:**
+
+```
+🐛 Fix PostgreSQL SKU configuration for budget deployment
+
+- Fixed Standard_B1ms SKU to use Burstable tier
+- Added explicit --tier parameter to PostgreSQL creation
+- Updated cost estimates ($10-18/month instead of $20-25)
+- Improved error handling for SKU validation
+
+Resolves: PostgreSQL creation failure due to incorrect tier
+```
+
+---
+
+## 💡 **Додаткові покращення:**
+
+### **🛡️ Додати валідацію SKU:**
+```bash
+# Перевірка доступності SKU перед створенням
+validate_postgresql_sku() {
+    log "Перевірка доступності PostgreSQL SKU..."
+    
+    local available_skus=$(az postgres flexible-server list-skus \
+        --location "$LOCATION" \
+        --query "[?tier=='$DB_TIER' && name=='$DB_SKU'].name" \
+        --output tsv)
+    
+    if [ -z "$available_skus" ]; then
+        error "SKU '$DB_SKU' недоступний в tier '$DB_TIER' для регіону '$LOCATION'"
+        log "Доступні SKU для $DB_TIER tier:"
+        az postgres flexible-server list-skus \
+            --location "$LOCATION" \
+            --query "[?tier=='$DB_TIER'].{Name:name, vCores:vCores, Memory:memoryMb}" \
+            --output table
+        exit 1
+    fi
+    
+    log "✅ SKU '$DB_SKU' доступний в tier '$DB_TIER'"
+}
+
+# Викликати перед створенням PostgreSQL
+validate_postgresql_sku
+```
+
+**Виправте SKU конфігурацію і скрипт спрацює правильно!** 🛠️✅
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+## 🐛 **Помилка синтаксису в команді PostgreSQL**
+
+Бачу проблему! В команді `az postgres flexible-server create` є помилка синтаксису - `unrecognized arguments`.
+
+---
+
+## 🔍 **Аналіз помилки:**
+
+### **❌ Проблема:**
+```bash
+unrecognized arguments:  
+```
+
+Це означає, що в команді є:
+- **Зайві пробіли** або символи
+- **Неправильний порядок** параметрів
+- **Синтаксична помилка** в bash скрипті
+
+---
+
+## 🛠️ **Виправлення команди PostgreSQL:**---
+
+## 🔧 **Можливі причини помилки:**
+
+### **1. 🎯 Проблема з тегами:**
+```bash
+# ❌ Проблемна версія:
+--tags $TAGS
+
+# ✅ Виправлена версія:
+--tags Environment=budget Project=django-app CreatedBy=AzureCLI CostProfile=Budget
+```
+
+### **2. 🎯 Проблема з порядком параметрів:**
+```bash
+# ✅ Правильний порядок:
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "$DB_SKU" \
+    --tier "$DB_TIER" \
+    --storage-size "$DB_STORAGE_SIZE" \
+    --version 14 \
+    --public-access 0.0.0.0 \
+    --tags Environment=budget Project=django-app CreatedBy=AzureCLI
+```
+
+### **3. 🎯 Перевірка змінних:**
+```bash
+# Додати debug інформацію перед командою:
+echo "DEBUG: Resource Group: $RESOURCE_GROUP_NAME"
+echo "DEBUG: Database Name: $DATABASE_SERVER_NAME"
+echo "DEBUG: Location: $LOCATION"
+echo "DEBUG: Admin User: $DB_ADMIN_USER"
+echo "DEBUG: SKU: $DB_SKU"
+echo "DEBUG: Tier: $DB_TIER"
+echo "DEBUG: Storage: $DB_STORAGE_SIZE"
+echo "DEBUG: Tags: $TAGS"
+```
+
+---
+
+## 🎯 **Швидке виправлення:**
+
+### **📝 Редагування скрипту:**
+
+1. **Знайти секцію створення PostgreSQL** (близько рядка 180-200)
+
+2. **Замінити команду на цю:**
+```bash
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_B1ms" \
+    --tier "Burstable" \
+    --storage-size 32 \
+    --version 14 \
+    --public-access 0.0.0.0 \
+    --tags Environment=budget Project=django-app CreatedBy=AzureCLI CostProfile=Budget
+```
+
+3. **Або спростити до мінімуму:**
+```bash
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_B1ms" \
+    --tier "Burstable" \
+    --storage-size 32 \
+    --public-access 0.0.0.0
+```
+
+---
+
+## 🧪 **Тестування команди окремо:**
+
+### **📋 Ручна перевірка команди:**
+```bash
+# Встановити змінні:
+RESOURCE_GROUP_NAME="django-app-budget-rg"
+DATABASE_SERVER_NAME="django-app-budget-db-test"
+LOCATION="West Europe"
+DB_ADMIN_USER="djangoadmin"
+DB_ADMIN_PASSWORD="TestPassword123!"
+
+# Протестувати команду:
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_B1ms" \
+    --tier "Burstable" \
+    --storage-size 32 \
+    --version 14 \
+    --public-access 0.0.0.0
+```
+
+---
+
+## 💡 **Альтернативне рішення - два кроки:**
+
+### **🔧 Якщо параметр --tier не працює:**
+
+```bash
+# Крок 1: Створити сервер з мінімальними параметрами
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --public-access 0.0.0.0
+
+# Крок 2: Оновити SKU після створення
+az postgres flexible-server update \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --sku-name "Standard_B1ms" \
+    --tier "Burstable"
+```
+
+---
+
+## 🔍 **Перевірка доступних параметрів:**
+
+### **📋 Команда для перевірки синтаксису:**
+```bash
+# Показати всі доступні параметри:
+az postgres flexible-server create --help
+
+# Перевірити доступні SKU:
+az postgres flexible-server list-skus --location "West Europe" --output table
+```
+
+---
+
+## 🎯 **Рекомендоване виправлення для скрипту:**
+
+### **📝 Замінити секцію PostgreSQL на:**
+```bash
+info "🔄 КРОК 3/11: Створення PostgreSQL Database (бюджетна конфігурація)"
+log "Створення PostgreSQL сервера: ${DATABASE_SERVER_NAME}"
+warning "Використовується найдешевший SKU: Standard_B1ms в Burstable tier"
+
+# Виправлена команда без змінних у тегах
+az postgres flexible-server create \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --name "$DATABASE_SERVER_NAME" \
+    --location "$LOCATION" \
+    --admin-user "$DB_ADMIN_USER" \
+    --admin-password "$DB_ADMIN_PASSWORD" \
+    --sku-name "Standard_B1ms" \
+    --tier "Burstable" \
+    --storage-size 32 \
+    --version 14 \
+    --public-access 0.0.0.0 \
+    --tags Environment=budget Project=django-app CreatedBy=AzureCLI CostProfile=Budget
+
+if [ $? -eq 0 ]; then
+    log "✅ PostgreSQL сервер успішно створено"
+else
+    error "❌ Помилка створення PostgreSQL сервера"
+fi
+```
+
+---
+
+## 📝 **Commit message після виправлення:**
+```
+🐛 Fix PostgreSQL creation command syntax error
+
+- Fixed command line arguments formatting
+- Simplified tags parameter to avoid parsing issues
+- Added error checking for PostgreSQL creation
+- Confirmed Standard_B1ms SKU with Burstable tier
+
+Resolves: "unrecognized arguments" error in PostgreSQL creation
+```
+
+**Після цього виправлення скрипт має працювати правильно!** 🛠️✅
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+## 📝 **Запуск bash скрипту з записом виводу у файл**
+
+Є кілька способів записати вивід скрипту у файл. Ось найпопулярніші варіанти:
+
+---
+
+## 📋 **Основні методи:**
+
+### **1. 📄 Простий запис виводу (`>`)**
+```bash
+# Записати тільки stdout у файл (перезаписати)
+./budget-azure-deploy.sh > deployment.log
+
+# Дописати у файл (не перезаписати)
+./budget-azure-deploy.sh >> deployment.log
+```
+
+### **2. 📄 Запис stdout + stderr (`&>`)**
+```bash
+# Записати ВСЕ (stdout + stderr) у файл
+./budget-azure-deploy.sh &> deployment.log
+
+# Або альтернативний синтаксис:
+./budget-azure-deploy.sh > deployment.log 2>&1
+```
+
+### **3. 👀 Запис + показ у консолі (`tee`)**
+```bash
+# Записати у файл І показати у консолі одночасно
+./budget-azure-deploy.sh | tee deployment.log
+
+# Записати ВСЕ (stdout + stderr) + показати у консолі
+./budget-azure-deploy.sh 2>&1 | tee deployment.log
+```
+
+### **4. 📅 З timestamp у назві файла**
+```bash
+# Створити файл з датою/часом
+./budget-azure-deploy.sh 2>&1 | tee "deployment-$(date +%Y%m%d-%H%M%S).log"
+```
+
+---
+
+## 🎯 **Рекомендовані варіанти для вашого скрипту:**
+
+### **✅ Найкращий варіант (з показом у консолі):**
+```bash
+./budget-azure-deploy.sh 2>&1 | tee deployment.log
+```
+
+**Переваги:**
+- ✅ Бачите процес у реальному часі
+- ✅ Записується ВСЕ (успіхи + помилки)
+- ✅ Можете переривати процес Ctrl+C
+- ✅ Файл зберігається для подальшого аналізу
+
+### **✅ Для автоматичних скриптів (без показу):**
+```bash
+./budget-azure-deploy.sh &> deployment.log
+```
+
+**Переваги:**
+- ✅ Швидша робота (немає виводу у консоль)
+- ✅ Підходить для cron jobs
+- ✅ Записує все у файл
+
+---
+
+## 📊 **Практичні приклади:**
+
+### **🔧 Для вашого Django Azure проекту:**
+
+#### **Варіант 1: Розгортання з логуванням**
+```bash
+# Запуск з timestamps та кольоровим виводом
+./budget-azure-deploy.sh 2>&1 | tee "logs/azure-deploy-$(date +%Y%m%d-%H%M%S).log"
+```
+
+#### **Варіант 2: Тільки запис у файл**
+```bash
+# Тихий режим - тільки у файл
+./budget-azure-deploy.sh > deployment.log 2>&1
+```
+
+#### **Варіант 3: Окремо успіхи та помилки**
+```bash
+# stdout у один файл, stderr у інший
+./budget-azure-deploy.sh > deployment-success.log 2> deployment-errors.log
+```
+
+#### **Варіант 4: З progress індикатором**
+```bash
+# Показати прогрес + записати все
+./budget-azure-deploy.sh 2>&1 | tee deployment.log | grep -E "(INFO|ERROR|WARNING)"
+```
+
+---
+
+## 📁 **Організація логів:**
+
+### **🗂️ Створення структури папок:**
+```bash
+# Створити папку для логів
+mkdir -p logs
+
+# Запуск з організованим логуванням
+./budget-azure-deploy.sh 2>&1 | tee "logs/budget-deploy-$(date +%Y%m%d-%H%M%S).log"
+```
+
+### **📅 Різні формати timestamps:**
+```bash
+# Формат: 20250706-161830
+date +%Y%m%d-%H%M%S
+
+# Формат: 2025-07-06_16-18-30
+date +%Y-%m-%d_%H-%M-%S
+
+# Формат: Jul06-1618
+date +%b%d-%H%M
+```
+
+---
+
+## 🎨 **Додаткові можливості:**
+
+### **🔍 Фільтрація виводу:**
+```bash
+# Записати тільки важливі повідомлення
+./budget-azure-deploy.sh 2>&1 | tee deployment.log | grep -E "✅|❌|⚠️"
+
+# Записати тільки помилки та попередження
+./budget-azure-deploy.sh 2>&1 | tee deployment.log | grep -E "(ERROR|WARNING)"
+
+# Показати тільки кроки виконання
+./budget-azure-deploy.sh 2>&1 | tee deployment.log | grep -E "КРОК [0-9]"
+```
+
+### **📊 З додатковою інформацією:**
+```bash
+# Додати інформацію про систему на початок лога
+{
+    echo "=== Azure Django Deployment Log ==="
+    echo "Date: $(date)"
+    echo "User: $(whoami)"
+    echo "PWD: $(pwd)"
+    echo "Git Branch: $(git branch --show-current 2>/dev/null || echo 'N/A')"
+    echo "Git Commit: $(git rev-parse --short HEAD 2>/dev/null || echo 'N/A')"
+    echo "Azure Account: $(az account show --query user.name -o tsv 2>/dev/null || echo 'Not logged in')"
+    echo "=================================="
+    echo ""
+} > deployment.log
+
+# Потім додати вивід скрипту
+./budget-azure-deploy.sh 2>&1 | tee -a deployment.log
+```
+
+---
+
+## 🛠️ **Wrapper скрипт для зручності:**---
+
+## 🎯 **Використання wrapper скрипту:**
+
+### **📋 Збереження та використання:**
+```bash
+# 1. Зберегти wrapper як deploy-with-logs.sh
+chmod +x deploy-with-logs.sh
+
+# 2. Запустити ваш deployment з логуванням
+./deploy-with-logs.sh budget-azure-deploy.sh
+
+# 3. Переглянути лог
+cat logs/azure-deploy-20250706-161830.log
+```
+
+---
+
+## 📊 **Корисні команди для аналізу логів:**
+
+### **🔍 Аналіз після завершення:**
+```bash
+# Показати тільки помилки
+grep -i "error\|❌\|failed" deployment.log
+
+# Показати прогрес (кроки)
+grep "КРОК\|INFO" deployment.log
+
+# Показати важливі повідомлення
+grep -E "✅|❌|⚠️|🔄" deployment.log
+
+# Показати створені ресурси
+grep -i "створено\|created" deployment.log
+
+# Показати вартість
+grep -i "вартість\|cost\|💰" deployment.log
+
+# Підрахувати кількість помилок
+grep -c -i "error\|❌" deployment.log
+```
+
+### **📈 Статистика виконання:**
+```bash
+# Час виконання кожного кроку
+grep "КРОК\|INFO" deployment.log | while read line; do
+    echo "$line" | grep -o "\[.*\]" | tr -d "[]"
+done
+
+# Показати розмір лога
+ls -lh deployment.log
+
+# Кількість рядків
+wc -l deployment.log
+```
+
+---
+
+## 💡 **Рекомендації:**
+
+### **✅ Для розробки (інтерактивно):**
+```bash
+./budget-azure-deploy.sh 2>&1 | tee deployment.log
+```
+
+### **✅ Для production (автоматично):**
+```bash
+./budget-azure-deploy.sh > deployment.log 2>&1
+```
+
+### **✅ Для детального аналізу:**
+```bash
+./deploy-with-logs.sh budget-azure-deploy.sh
+```
+
+### **✅ Для debugging:**
+```bash
+bash -x ./budget-azure-deploy.sh 2>&1 | tee debug.log
+```
+
+**Вибирайте метод в залежності від ваших потреб!** 📝🚀
