@@ -52,12 +52,25 @@ STORAGE_ACCOUNT_NAME="djapp$(date +%s | tail -c 8)"
 KEY_VAULT_NAME="djapp-kv-$(date +%s | tail -c 6)"
 APP_INSIGHTS_NAME="${PROJECT_NAME}-${ENVIRONMENT}-insights"
 
+
 # 💰 БЮДЖЕТНА КОНФІГУРАЦІЯ
+#APP_SERVICE_SKU="F1"              # 🆓 БЕЗКОШТОВНО (з обмеженнями)
+#PYTHON_VERSION="3.11"
+#DB_SKU="Standard_B1ms"            # 💵 $12-15/місяць (1 vCore, 2GB RAM)
+#DB_STORAGE_SIZE="32"              # Мінімальний розмір
+#STORAGE_SKU="Standard_LRS"        # Найдешевший тип сховища
+
+
+# 💰 ВИПРАВЛЕНА БЮДЖЕТНА КОНФІГУРАЦІЯ
 APP_SERVICE_SKU="F1"              # 🆓 БЕЗКОШТОВНО (з обмеженнями)
 PYTHON_VERSION="3.11"
-DB_SKU="Standard_B1ms"            # 💵 $12-15/місяць (1 vCore, 2GB RAM)
+
+# 🔧 ВИПРАВЛЕННЯ PostgreSQL конфігурації
+DB_SKU="Standard_B1ms"            # ✅ Правильний SKU для Burstable
+DB_TIER="Burstable"               # ✅ ДОДАНО: Burstable tier (~$7-12/місяць)
 DB_STORAGE_SIZE="32"              # Мінімальний розмір
 STORAGE_SKU="Standard_LRS"        # Найдешевший тип сховища
+
 
 # Конфігурація бази даних
 DB_ADMIN_USER="djangoadmin"
@@ -72,18 +85,31 @@ echo -e "${BLUE}💰 БЮДЖЕТНА AZURE INFRASTRUCTURE${NC}"
 echo -e "${BLUE}============================================${NC}"
 echo -e "${CYAN}Орієнтовна вартість: $20-25/місяць${NC}"
 echo ""
+#echo "📊 Конфігурація:"
+#echo "  🚀 App Service: F1 (безкоштовно)"
+#echo "  🗄️  Database: Standard_B1ms (~$12-15)"
+#echo "  💾 Storage: Standard_LRS (~$2-5)"
+#echo "  🔐 Key Vault: ~$1"
+#echo "  📈 App Insights: безкоштовно (до 5GB)"
+
+
+# Оновлений вивід інформації:
 echo "📊 Конфігурація:"
 echo "  🚀 App Service: F1 (безкоштовно)"
-echo "  🗄️  Database: Standard_B1ms (~$12-15)"
+echo "  🗄️  Database: Standard_B1ms Burstable (~$7-12)"  # ✅ Виправлено
 echo "  💾 Storage: Standard_LRS (~$2-5)"
 echo "  🔐 Key Vault: ~$1"
 echo "  📈 App Insights: безкоштовно (до 5GB)"
+echo ""
+echo "💰 ЗАГАЛЬНА ВАРТІСТЬ: ~$10-18/місяць" 
 echo ""
 
 log "Початок створення БЮДЖЕТНОЇ інфраструктури для Django додатку..."
 log "Проект: ${PROJECT_NAME}"
 log "Середовище: ${ENVIRONMENT}"
 log "Регіон: ${LOCATION}"
+
+
 
 # =============================================================================
 # ПЕРЕВІРКА ЗАЛЕЖНОСТЕЙ
@@ -147,9 +173,18 @@ az storage container create \
     --account-key "$STORAGE_KEY" \
     --public-access blob
 
+
+
+
+# =============================================================================
+# ВИПРАВЛЕНА КОМАНДА СТВОРЕННЯ POSTGRESQL
+# =============================================================================
+
 info "🔄 КРОК 3/11: Створення PostgreSQL Database (бюджетна конфігурація)"
 log "Створення PostgreSQL сервера: ${DATABASE_SERVER_NAME}"
-warning "Використовується найдешевший SKU: $DB_SKU"
+warning "Використовується найдешевший SKU: $DB_SKU в $DB_TIER tier"
+
+# ✅ ПРАВИЛЬНА команда створення PostgreSQL Flexible Server
 az postgres flexible-server create \
     --resource-group "$RESOURCE_GROUP_NAME" \
     --name "$DATABASE_SERVER_NAME" \
@@ -157,10 +192,27 @@ az postgres flexible-server create \
     --admin-user "$DB_ADMIN_USER" \
     --admin-password "$DB_ADMIN_PASSWORD" \
     --sku-name "$DB_SKU" \
+    --tier "$DB_TIER" \
     --storage-size "$DB_STORAGE_SIZE" \
     --version 14 \
     --public-access 0.0.0.0 \
     --tags $TAGS
+
+# АЛЬТЕРНАТИВА: Якщо --tier не працює, використати цю команду:
+# az postgres flexible-server create \
+#     --resource-group "$RESOURCE_GROUP_NAME" \
+#     --name "$DATABASE_SERVER_NAME" \
+#     --location "$LOCATION" \
+#     --admin-user "$DB_ADMIN_USER" \
+#     --admin-password "$DB_ADMIN_PASSWORD" \
+#     --sku-name "Standard_B1ms" \
+#     --storage-size 32 \
+#     --version 14 \
+#     --public-access 0.0.0.0 \
+#     --tier Burstable \
+#     --tags Environment=budget Project=django-app CreatedBy=AzureCLI CostProfile=Budget
+
+
 
 info "🔄 КРОК 4/11: Створення бази даних"
 log "Створення бази даних: ${DATABASE_NAME}"
