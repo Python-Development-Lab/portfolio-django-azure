@@ -174,6 +174,12 @@ DB_SKU="Standard_D4ds_v4"         # $170-190/місяць (4 vCore, 16GB RAM)
 
 
 
+# 07.07.2025 - Оцінка GitHub Billing Dashboard 💰
+
+
+
+
+
 # 02.07.2025 - Оцінка GitHub Billing Dashboard 💰
 
 ![](https://github.com/Python-Development-Lab/portfolio-django-azure/blob/main/images/github-issue.png)
