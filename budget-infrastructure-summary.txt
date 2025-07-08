@@ -1,0 +1,45 @@
+БЮДЖЕТНА AZURE INFRASTRUCTURE SUMMARY
+=====================================
+Created: Tue Jul  8 04:14:04 UTC 2025
+Project: django-app (Budget Edition)
+Estimated Cost: 0-25/month
+
+Resources:
+- Resource Group: django-app-budget-rg
+- Web App: django-app-budget-1751947063 (F1 Free)
+- URL: https://django-app-budget-1751947063.azurewebsites.net
+- Database Server: django-app-budget-db-1751947063 (B1ms)
+- Database: django-app_db
+- Storage Account: djapp1947063 (LRS)
+- Key Vault: djapp-kv-47063
+- Application Insights: django-app-budget-insights
+
+Cost Breakdown:
+- App Service F1: ./budget-azure-deploy.sh/month (Free tier)
+- PostgreSQL B1ms: 2-15/month
+- Storage LRS: -5/month
+- Key Vault: /month
+- App Insights: ./budget-azure-deploy.sh/month (up to 5GB)
+
+Limitations:
+- F1: 60 CPU minutes/day, 1GB RAM
+- No Always On (cold starts possible)
+- Limited logging
+- Single worker process
+
+Database Credentials:
+- Admin User: djangoadmin
+- Admin Password: AAVuo8twx4OAaebmAa1!
+
+Files Created:
+- requirements.txt (minimal)
+- .env.budget
+- startup.sh (optimized)
+- budget_settings.py
+- cleanup_budget_infrastructure.sh
+
+Next Steps:
+1. Use budget_settings.py in your Django project
+2. Deploy code with ZIP deployment
+3. Monitor CPU usage (60 min/day limit)
+4. Upgrade to B1 if needed (+3/month)
