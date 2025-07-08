@@ -662,4 +662,6 @@ Version 2.0.0 (stable release) will include:
 
 - Semantic Versioning 2.0.0, https://semver.org/
 - About release management, https://docs.github.com/ru/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+- Build community-driven software projects on GitHub, https://learn.microsoft.com/en-us/training/paths/build-community-driven-projects-github/
+- 
 
