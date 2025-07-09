@@ -10,4 +10,4 @@ python manage.py collectstatic --noinput --clear
 python manage.py migrate --noinput
 
 # Бюджетний запуск з мінімальними ресурсами
-exec gunicorn --bind=0.0.0.0:8000 --timeout 300 --workers 1 --max-requests 1000 --max-requests-jitter 100 config.wsgi:application
+exec gunicorn --bind=0.0.0.0:8000 --timeout 300 --workers 1 --max-requests 1000 --max-requests-jitter 100 project_portfolio:application
